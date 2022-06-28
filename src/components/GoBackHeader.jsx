@@ -1,7 +1,7 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { PALLETS } from 'utils/constants';
+
+import { PALLETS } from '@/utils/constants';
 
 export default function GoBackHeader({ headerTitle, setStep, uploadBtn }) {
   const navigate = useNavigate();

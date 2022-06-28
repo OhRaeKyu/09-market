@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-import { isLogined } from 'utils/isLogined';
+import { isLogined } from '@/utils/isLogined';
 
-import GoBackHeader from 'components/GoBackHeader';
+import GoBackHeader from '@/components/GoBackHeader';
 import BasicInformation from './BasicInformation';
 import PersonalInformation from './PersonalInformation';
 

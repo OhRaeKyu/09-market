@@ -1,12 +1,11 @@
-import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { isLogined } from 'utils/isLogined';
-import { PALLETS } from 'utils/constants';
+import { isLogined } from '@/utils/isLogined';
+import { PALLETS } from '@/utils/constants';
 
-import GoBackHeader from 'components/GoBackHeader';
 import SingInForm from './SingInForm';
+import GoBackHeader from '@/components/GoBackHeader';
 
 export default function SignInPage() {
   if (isLogined()) {

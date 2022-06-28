@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import axios from '../../api/axios';
-import { setImgSrc } from 'utils/setImgSrc';
+import axios from '@/api/axios';
+import { setImgSrc } from '@/utils/setImgSrc';
 
 import ItemLoading from './ItemLoading';
 

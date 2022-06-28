@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from '../../api/axios';
 
-import Loading from 'components/Loading';
-import { setImgSrc } from 'utils/setImgSrc';
-import OptionModal from 'components/OptionModal';
+import axios from '@/api/axios';
+import { setImgSrc } from '@/utils/setImgSrc';
+
+import Loading from '@/components/Loading';
+import OptionModal from '@/components/OptionModal';
 
 export default function UserInfo() {
   const navigate = useNavigate();

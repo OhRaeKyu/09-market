@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
 import UserInfo from './UserInfo';
 import ItemsInfo from './ItemsInfo';
-import OptionModal from 'components/OptionModal';
+import OptionModal from '@/components/OptionModal';
 
-import { isLogined } from 'utils/isLogined';
+import { isLogined } from '@/utils/isLogined';
 
 export default function ProfilePage() {
   const [optionClicked, setOptionClicked] = useState(false);

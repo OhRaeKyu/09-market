@@ -1,9 +1,8 @@
-import React from 'react';
 import { Navigate } from 'react-router-dom';
 
-import { isLogined } from 'utils/isLogined';
+import { isLogined } from '@/utils/isLogined';
 
-import GoBackHeader from 'components/GoBackHeader';
+import GoBackHeader from '@/components/GoBackHeader';
 import ItemUploadForm from './ItemUploadForm';
 
 export default function ItemUploadPage() {

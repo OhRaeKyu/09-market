@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 
-import axios from '../../api/axios';
-import { PALLETS } from 'utils/constants';
+import axios from '@/api/axios';
+import { PALLETS } from '@/utils/constants';
 
 export default function InputComment() {
   const params = useParams();

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
-import { PALLETS } from 'utils/constants';
+import { PALLETS } from '@/utils/constants';
 
-import OptionModal from 'components/OptionModal';
+import OptionModal from '@/components/OptionModal';
 
 export default function ProfilePageHeader() {
   const [optionClicked, setOptionClicked] = useState(false);

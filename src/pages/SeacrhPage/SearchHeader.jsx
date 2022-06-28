@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { PALLETS } from 'utils/constants';
+import { PALLETS } from '@/utils/constants';
 
 export default function SearchHeader() {
   const navigate = useNavigate();

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import axios from '../../api/axios';
-import { setImgSrc } from 'utils/setImgSrc';
+import axios from '@/api/axios';
+import { setImgSrc } from '@/utils/setImgSrc';
 
 export default function ItemsInfo() {
   const userId = useParams().userId;

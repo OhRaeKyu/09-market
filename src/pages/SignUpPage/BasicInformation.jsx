@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { PALLETS } from 'utils/constants';
+import { PALLETS } from '@/utils/constants';
 
 export default function BasicInformation({ setStep, handleUserData }) {
   const [inputEmail, setInputEmail] = useState('');

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import axios from '../../api/axios';
-import { PALLETS } from 'utils/constants';
+import axios from '@/api/axios';
+import { PALLETS } from '@/utils/constants';
 
 export default function SingInForm() {
   const navigate = useNavigate();

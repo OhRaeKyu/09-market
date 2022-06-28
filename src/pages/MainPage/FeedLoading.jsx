@@ -1,6 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
-import { PALLETS } from 'utils/constants';
+
+import { PALLETS } from '@/utils/constants';
 
 export default function FeedLoading() {
   return (

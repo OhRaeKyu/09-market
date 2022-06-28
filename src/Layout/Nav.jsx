@@ -1,8 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import { PALLETS } from 'utils/constants';
+import { PALLETS } from '@/utils/constants';
 
 export default function Nav() {
   const userId = localStorage.getItem('userId');

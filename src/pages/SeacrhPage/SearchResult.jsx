@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useLocation, Link } from 'react-router-dom';
 
-import axios from '../../api/axios';
-import { PALLETS } from 'utils/constants';
-import { useDebounce } from 'hooks/useDebounce';
-import { setImgSrc } from 'utils/setImgSrc';
+import axios from '@/api/axios';
+import { PALLETS } from '@/utils/constants';
+import { setImgSrc } from '@/utils/setImgSrc';
+import { useDebounce } from '@/hooks/useDebounce';
 
 export default function SearchResult() {
   const [itemsData, setItemsData] = useState([]);

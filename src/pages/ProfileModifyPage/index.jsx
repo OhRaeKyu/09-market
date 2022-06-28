@@ -1,6 +1,4 @@
-import React from 'react';
-
-import GoBackHeader from 'components/GoBackHeader';
+import GoBackHeader from '@/components/GoBackHeader';
 import ProfileModifyForm from './ProfileModifyForm';
 
 export default function ProfileModifyPage() {

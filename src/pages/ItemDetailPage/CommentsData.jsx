@@ -1,9 +1,8 @@
-import React, { useState, useCallback } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import axios from '../../api/axios';
+import axios from '@/api/axios';
 
 export default function CommentsData() {
   const itemId = useParams().itemId;

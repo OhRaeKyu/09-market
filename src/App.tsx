@@ -3,18 +3,18 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Layout from './Layout';
-import SplashPage from 'pages/SplashPage';
+import SplashPage from './pages/SplashPage';
 import MainPage from './pages/MainPage';
 import ProfilePage from './pages/ProfilePage';
 import ProfileModifyPage from './pages/ProfileModifyPage';
 import ItemDetailPage from './pages/ItemDetailPage';
-import SearchPage from 'pages/SeacrhPage';
-import ItemUploadPage from 'pages/ItemUploadPage';
+import SearchPage from './pages/SeacrhPage';
+import ItemUploadPage from './pages/ItemUploadPage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import NotFoundPage from './pages/NotFoundPage';
 
-function App() {
+export default function App() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -47,5 +47,3 @@ function App() {
     </BrowserRouter>
   );
 }
-
-export default App;
