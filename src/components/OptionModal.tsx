@@ -3,7 +3,17 @@ import styled from 'styled-components';
 
 import { PALLETS } from '@/utils/constants';
 
-export default function OptionModal({ optionClicked, setOptionClicked, mode }) {
+interface OptionModalProps {
+  optionClicked: boolean;
+  setOptionClicked: (optionClicked: boolean) => boolean;
+  mode: string;
+}
+
+export default function OptionModal({
+  optionClicked,
+  setOptionClicked,
+  mode,
+}: OptionModalProps) {
   const navigate = useNavigate();
 
   const logOut = () => {
@@ -13,7 +23,7 @@ export default function OptionModal({ optionClicked, setOptionClicked, mode }) {
 
   const ProfileImgModify = () => {};
 
-  const optionItems = (modalMode) => {
+  const optionItems = (modalMode: string) => {
     switch (modalMode) {
       case 'logout':
         return (
@@ -56,8 +66,8 @@ const ModalWrap = styled.div`
   z-index: 9999;
 `;
 
-const ModalContainer = styled.ul`
-  display: ${(props) => (props.profileClicked ? 'block' : 'none')};
+const ModalContainer = styled.ul<{ optionClicked: boolean }>`
+  display: ${(props) => (props.optionClicked ? 'block' : 'none')};
   position: fixed;
   bottom: 0;
   left: 0;

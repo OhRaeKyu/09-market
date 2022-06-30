@@ -3,7 +3,15 @@ import styled from 'styled-components';
 
 import { PALLETS } from '@/utils/constants';
 
-export default function GoBackHeader({ headerTitle, setStep, uploadBtn }) {
+interface GoBackHeaderProps {
+  headerTitle: string;
+  setStep: (step: string) => string;
+}
+
+export default function GoBackHeader({
+  headerTitle,
+  setStep,
+}: GoBackHeaderProps) {
   const navigate = useNavigate();
   return (
     <GoBackHeaderWrap>

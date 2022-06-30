@@ -8,4 +8,5 @@ export default function Header() {
 
   if (location === '/') return <MainPageHeader />;
   else if (/^\/profile/.test(location)) return <ProfilePageHeader />;
+  else return <></>;
 }
