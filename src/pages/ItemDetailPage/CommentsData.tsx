@@ -4,9 +4,14 @@ import styled from 'styled-components';
 
 import axios from '@/api/axios';
 
+interface commentsData {
+  itemId: string;
+  content: string;
+}
+
 export default function CommentsData() {
   const itemId = useParams().itemId;
-  const [commentsData, setCommentsData] = useState([]);
+  const [commentsData, setCommentsData] = useState<commentsData[]>([]);
 
   const getComments = useCallback(async () => {
     await axios
@@ -22,7 +27,7 @@ export default function CommentsData() {
     getComments();
   }, [getComments]);
 
-  return (
+  return !!commentsData ? (
     <CommentsWrap>
       <CommentsList>
         {commentsData.map((item) => (
@@ -33,11 +38,13 @@ export default function CommentsData() {
         ))}
       </CommentsList>
     </CommentsWrap>
+  ) : (
+    <></>
   );
 }
 
 const CommentsWrap = styled.section`
-  padding: 15px 15px 150px;
+  padding: 20px 15px 150px;
 `;
 
 const CommentsList = styled.ul`

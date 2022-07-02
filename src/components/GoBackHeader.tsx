@@ -5,12 +5,14 @@ import { PALLETS } from '@/utils/constants';
 
 interface GoBackHeaderProps {
   headerTitle: string;
-  setStep: (step: string) => string;
+  setStep?: (step: string) => string;
+  optionBtn?: boolean;
 }
 
 export default function GoBackHeader({
   headerTitle,
   setStep,
+  optionBtn,
 }: GoBackHeaderProps) {
   const navigate = useNavigate();
   return (
@@ -25,6 +27,7 @@ export default function GoBackHeader({
           <span className="blind">뒤로가기 버튼</span>
         </GoBackButton>
         {headerTitle && <h1>{headerTitle}</h1>}
+        {optionBtn && <OptionBtn />}
       </GoBackHeaderItems>
     </GoBackHeaderWrap>
   );
@@ -49,7 +52,7 @@ const GoBackHeaderItems = styled.div`
   align-items: center;
 
   @media screen and (min-width: 420px) {
-    max-width: 70vw;
+    max-width: 80vw;
   }
 `;
 
@@ -61,5 +64,17 @@ const GoBackButton = styled.button`
 
   &::after {
     content: '<';
+  }
+`;
+
+const OptionBtn = styled.button`
+  position: absolute;
+  right: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+
+  &::after {
+    content: '';
+    background-image: url('/images/more.png');
   }
 `;

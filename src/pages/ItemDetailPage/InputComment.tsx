@@ -11,11 +11,11 @@ export default function InputComment() {
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [inputComment, setInputComment] = useState('');
 
-  const handleInputComment = (e) => {
+  const handleInputComment = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputComment(e.target.value);
   };
 
-  const handleSubmitBtn = async (comment) => {
+  const handleSubmitBtn = async (comment: string) => {
     const userToken = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
 
@@ -42,24 +42,26 @@ export default function InputComment() {
 
   return (
     <Form>
-      <Label htmlFor="inpComment" className="blind">
-        댓글 입력
-      </Label>
-      <Comment
-        type="text"
-        id="inpComment"
-        value={inputComment}
-        placeholder="댓글을 입력해주세요."
-        maxLength="500"
-        onChange={handleInputComment}
-      />
-      <SubmitBtn
-        type="button"
-        disabled={btnDisabled}
-        onClick={() => handleSubmitBtn(inputComment)}
-      >
-        등록
-      </SubmitBtn>
+      <FormWrap>
+        <Label htmlFor="inpComment" className="blind">
+          댓글 입력
+        </Label>
+        <Comment
+          type="text"
+          id="inpComment"
+          value={inputComment}
+          placeholder="댓글을 입력해주세요."
+          maxLength={500}
+          onChange={handleInputComment}
+        />
+        <SubmitBtn
+          type="button"
+          disabled={btnDisabled}
+          onClick={() => handleSubmitBtn(inputComment)}
+        >
+          등록
+        </SubmitBtn>
+      </FormWrap>
     </Form>
   );
 }
@@ -68,13 +70,22 @@ const Form = styled.form`
   position: fixed;
   bottom: 0;
   left: 0;
+
+  width: 100vw;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: ${PALLETS.WHITE};
+`;
+
+const FormWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100vw;
   height: 4rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: ${PALLETS.WHITE};
+  margin: 0 auto;
+
+  @media screen and (min-width: 420px) {
+    max-width: 80vw;
+  }
 `;
 
 const Label = styled.label``;

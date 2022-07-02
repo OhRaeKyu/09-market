@@ -1,24 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
 
 import axios from '@/api/axios';
 import { PALLETS } from '@/utils/constants';
 import { setImgSrc } from '@/utils/setImgSrc';
+import { setItemsList } from '@/modules/itemModule';
+import { RootState } from '@/modules';
 
 import FeedLoading from './FeedLoading';
 
-export default function FeedItems({ currentCategory }) {
-  const [itemsData, setItemsData] = useState([]);
+export default function FeedItems() {
+  const dispatch = useDispatch();
+  const items = useSelector((state: RootState) => state.itemsList.items);
+  const currentCategory = useSelector((state: RootState) => state.category);
 
-  const getFeedItems = async (currentCategory) => {
-    const url =
-      (await currentCategory) === '전체' ? '/item' : `/item/${currentCategory}`;
+  const getFeedItems = async (category: string) => {
+    const url = category === '전체' ? '/item' : `/item/${category}`;
 
     await axios
       .get(url)
       .then((res) => {
-        setItemsData(res.data.reverse());
+        dispatch(setItemsList(res.data.reverse()));
       })
       .catch((err) => console.log(err));
   };
@@ -27,38 +31,37 @@ export default function FeedItems({ currentCategory }) {
     getFeedItems(currentCategory);
   }, [currentCategory]);
 
-  if (itemsData.length > 0)
-    return (
-      <>
-        <h2 className="blind">{currentCategory} 카테고리 게시글</h2>
-        <PostsWrap>
-          {itemsData.map((item) => (
-            <PostItem key={item.itemId}>
-              <Link to={`/item/detail/${item.itemId}`}>
-                <ItemImageWrap>
-                  <ItemImage
-                    src={setImgSrc(item.itemImageUrl)}
-                    alt={item.name}
-                  />
-                  <ItemBackground />
-                </ItemImageWrap>
-                <ItemInfo>
-                  <ItemLike>
-                    <span className="blind">좋아요 수</span>
-                    {item.likes}
-                  </ItemLike>
-                  <ItemComment>
-                    <span className="blind">댓글 수</span>
-                    {item.comments}
-                  </ItemComment>
-                </ItemInfo>
-              </Link>
-            </PostItem>
-          ))}
-        </PostsWrap>
-      </>
-    );
-  else return <FeedLoading>등록된 상품이 없습니다.</FeedLoading>;
+  console.log(items);
+
+  return !!items ? (
+    <>
+      <h2 className="blind">{currentCategory} 카테고리 게시글</h2>
+      <PostsWrap>
+        {items.map((item) => (
+          <PostItem key={item.itemId}>
+            <Link to={`/item/detail/${item.itemId}`}>
+              <ItemImageWrap>
+                <ItemImage src={setImgSrc(item.itemImageUrl)} alt={item.name} />
+                <ItemBackground />
+              </ItemImageWrap>
+              <ItemInfo>
+                <ItemLike>
+                  <span className="blind">좋아요 수</span>
+                  {item.likes}
+                </ItemLike>
+                <ItemComment>
+                  <span className="blind">댓글 수</span>
+                  {item.comments}
+                </ItemComment>
+              </ItemInfo>
+            </Link>
+          </PostItem>
+        ))}
+      </PostsWrap>
+    </>
+  ) : (
+    <FeedLoading />
+  );
 }
 
 const PostsWrap = styled.ul`

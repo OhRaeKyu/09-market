@@ -1,20 +1,23 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
 
 import axios from '@/api/axios';
 import { setImgSrc } from '@/utils/setImgSrc';
-
-import ItemLoading from './ItemLoading';
+import { itemData } from '.';
 
 export default function ItemData() {
+  const dispatch = useDispatch();
+  // const item = useSelector((state) => state.itemsDetail.item);
+
   const itemId = useParams().itemId;
-  const [itemData, setItemData] = useState({});
+  const [itemData, setItemData] = useState<itemData | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [likesNum, setLikesNum] = useState(0);
   const [commentsNum, setCommentsNum] = useState(0);
 
-  const getItem = useCallback(async () => {
+  const getItem = async () => {
     await axios
       .get(`/item/detail/${itemId}`)
       .then((res) => {
@@ -23,7 +26,7 @@ export default function ItemData() {
         setCommentsNum(res.data.comments.length);
       })
       .catch((err) => console.log(err));
-  }, [itemId]);
+  };
 
   const toggleLike = () => {
     isLiked ? setLikesNum(likesNum - 1) : setLikesNum(likesNum + 1);
@@ -32,9 +35,9 @@ export default function ItemData() {
 
   useEffect(() => {
     getItem();
-  }, [getItem]);
+  }, []);
 
-  return Object.keys(itemData).length > 0 ? (
+  return !!itemData ? (
     <PostItemContainer>
       <PostItemItem>
         <PostAuthorWrap to="">
@@ -61,7 +64,7 @@ export default function ItemData() {
       </PostItemItem>
     </PostItemContainer>
   ) : (
-    <ItemLoading />
+    <></>
   );
 }
 const PostItemContainer = styled.section`
@@ -71,7 +74,7 @@ const PostItemContainer = styled.section`
 const PostItemItem = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 80px 2.5vw 10px;
+  padding: 80px 2.5vw 0;
 
   @media screen and (min-width: 420px) {
     max-width: 70vw;
@@ -100,7 +103,6 @@ const ItemImage = styled.img`
   position: relative;
   width: 100%;
   object-fit: cover;
-  margin-bottom: 15px;
   border-radius: 5px;
 
   @media screen and (min-width: 420px) {
@@ -108,11 +110,10 @@ const ItemImage = styled.img`
   }
 `;
 
-const InstagramLink = styled.a``;
-
 const ItemInfoWrap = styled.div`
   display: flex;
   justify-content: space-between;
+  margin: 20px 0;
 `;
 
 const LikeAndComment = styled.div`
@@ -120,7 +121,7 @@ const LikeAndComment = styled.div`
   align-items: center;
 `;
 
-const Like = styled.p`
+const Like = styled.p<{ isLiked?: boolean }>`
   position: relative;
   margin-left: 2.5rem;
 
@@ -156,3 +157,5 @@ const Comment = styled(Like)`
     background-image: url('/images/comment_black.png');
   }
 `;
+
+const InstagramLink = styled.a``;

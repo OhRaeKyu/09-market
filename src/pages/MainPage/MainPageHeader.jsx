@@ -70,7 +70,7 @@ const HeaderItems = styled.div`
   align-items: center;
 
   @media screen and (min-width: 420px) {
-    max-width: 70vw;
+    max-width: 80vw;
   }
 `;
 

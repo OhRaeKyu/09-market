@@ -1,13 +1,20 @@
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { PALLETS } from '@/utils/constants';
+import { setCategory } from '@/modules/categoryModule';
+import { RootState } from '@/modules/index';
 
-export default function Category({ currentCategory, setCurrentCategory }) {
+export default function Category() {
   const categoryData = ['전체', '화장품', '기타'];
 
-  const handleCategory = (e) => {
-    if (currentCategory !== e.target.innerText) {
-      setCurrentCategory(e.target.innerText);
+  const dispatch = useDispatch();
+  const currentCategory = useSelector((state: RootState) => state.category);
+
+  const handleCategory = (e: React.MouseEvent) => {
+    const eventTarget = e.target as HTMLElement;
+    if (currentCategory !== eventTarget.innerText) {
+      dispatch(setCategory(eventTarget.innerText));
     }
   };
 

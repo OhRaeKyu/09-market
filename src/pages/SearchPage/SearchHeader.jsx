@@ -59,6 +59,10 @@ const SearchHeaderItems = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+
+  @media screen and (min-width: 420px) {
+    max-width: 80vw;
+  }
 `;
 
 const SearchButton = styled.button`

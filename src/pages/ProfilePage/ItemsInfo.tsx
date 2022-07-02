@@ -5,12 +5,18 @@ import styled from 'styled-components';
 import axios from '@/api/axios';
 import { setImgSrc } from '@/utils/setImgSrc';
 
+interface itemsData {
+  id: string;
+  itemImageUrl: string;
+  itemInfo: string;
+}
+
 export default function ItemsInfo() {
   const userId = useParams().userId;
 
-  const [itemsData, setItemsData] = useState([]);
+  const [itemsData, setItemsData] = useState<itemsData[]>([]);
 
-  const getUserItem = async (profileUserId) => {
+  const getUserItem = async (profileUserId: string) => {
     const userToken = localStorage.getItem('token');
 
     await axios
@@ -19,13 +25,15 @@ export default function ItemsInfo() {
       })
       .then((res) => {
         console.log(res.data.items);
-        setItemsData(res.data.items);
+        setItemsData(res.data.items.reverse());
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    getUserItem(userId);
+    if (!!userId) {
+      getUserItem(userId);
+    }
   }, [userId]);
 
   if (itemsData.length > 0) {
