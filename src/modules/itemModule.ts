@@ -1,34 +1,52 @@
 const SET_ITEMS_LIST = 'item/SET_ITEMS_LIST';
-const SET_DETAIL_ITEM = 'item/SET_DETAIL_ITEM';
-const DELETE_ITEM = 'item/DELETE_ITEM';
+const SET_ITEM_DETAIL = 'item/SET_ITEM_DETAIL';
 
-export const setItemsList = (items: object[]) => ({
+const DELETE_USER_ITEM = 'item/DELETE_ITEM';
+
+export const setItemsList = (items: []) => ({
   type: SET_ITEMS_LIST,
   payload: items,
 });
 
-export const setDetailItem = (item: object) => ({
-  type: SET_DETAIL_ITEM,
+export const setItemDetail = (item: {}) => ({
+  type: SET_ITEM_DETAIL,
   payload: item,
 });
 
 export const deleteItem = () => ({
-  type: DELETE_ITEM,
+  type: DELETE_USER_ITEM,
 });
 
-interface InitItemsState {
-  items: object[];
+interface Item {
+  itemId: string;
+  name: string;
+  itemImageUrl: string;
 }
 
-const initItemsState: InitItemsState = {
-  items: [],
-};
+interface InitItemsList {
+  items: (Item & {
+    comments: number;
+  })[];
+}
 
-type ItemsReducer = ReturnType<typeof setItemsList>;
+interface InitItemDetail extends Item {
+  comments: [];
+  userId: string;
+  instagramUrl: string;
+}
+
+type ItemsListAction = ReturnType<typeof setItemsList>;
+type ItemDetailAction = ReturnType<typeof setItemDetail>;
+
+const initItemsList = {
+  items: [],
+} as InitItemsList;
+
+const initItem = {} as InitItemDetail;
 
 export const itemsListReducer = (
-  state = initItemsState,
-  action: ItemsReducer
+  state: InitItemsList = initItemsList,
+  action: ItemsListAction
 ) => {
   switch (action.type) {
     case SET_ITEMS_LIST:
@@ -38,17 +56,13 @@ export const itemsListReducer = (
   }
 };
 
-type ItemDetailReducer = {
-  type: string;
-  payload?: object;
-};
-
-export const itemDatailReducer = (state = {}, action: ItemDetailReducer) => {
+export const itemDetailReducer = (
+  state: InitItemDetail = initItem,
+  action: ItemDetailAction
+) => {
   switch (action.type) {
-    case SET_DETAIL_ITEM:
+    case SET_ITEM_DETAIL:
       return { ...state, ...action.payload };
-    case DELETE_ITEM:
-      return {};
     default:
       return state;
   }

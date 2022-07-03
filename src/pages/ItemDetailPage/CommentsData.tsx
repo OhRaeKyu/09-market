@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { useSelector } from '@/hooks/useTypedSelector';
 
 import axios from '@/api/axios';
 
@@ -11,6 +12,7 @@ interface commentsData {
 
 export default function CommentsData() {
   const itemId = useParams().itemId;
+  const comments = useSelector((state) => state.itemDetail.comments);
   const [commentsData, setCommentsData] = useState<commentsData[]>([]);
 
   const getComments = useCallback(async () => {

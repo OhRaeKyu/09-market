@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { PALLETS } from '@/utils/constants';
 
 export default function Nav() {
-  const userId = localStorage.getItem('userId');
+  const userId = sessionStorage.getItem('userId');
 
   return (
     <NavWrap>

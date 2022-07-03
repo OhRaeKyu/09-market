@@ -1,12 +1,20 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
 import { categoryReducer } from './categoryModule';
-import { itemsListReducer, itemDatailReducer } from './itemModule';
+import { itemsListReducer, itemDetailReducer } from './itemModule';
+import { modalModeReducer, modalOpenReducer } from './modalModule';
+import { userDataReducer } from './userModule';
 
 const rootReducer = combineReducers({
   category: categoryReducer,
+
   itemsList: itemsListReducer,
-  itemDetail: itemDatailReducer,
+  itemDetail: itemDetailReducer,
+
+  isModalOpen: modalOpenReducer,
+  modeOfModal: modalModeReducer,
+
+  userData: userDataReducer,
 });
 
 export default rootReducer;

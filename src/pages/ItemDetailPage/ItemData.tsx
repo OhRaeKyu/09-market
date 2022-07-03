@@ -1,71 +1,63 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useSelector } from '@/hooks/useTypedSelector';
 
 import axios from '@/api/axios';
 import { setImgSrc } from '@/utils/setImgSrc';
-import { itemData } from '.';
+import { setItemDetail } from '@/modules/itemModule';
 
 export default function ItemData() {
   const dispatch = useDispatch();
-  // const item = useSelector((state) => state.itemsDetail.item);
-
   const itemId = useParams().itemId;
-  const [itemData, setItemData] = useState<itemData | null>(null);
-  const [isLiked, setIsLiked] = useState(false);
-  const [likesNum, setLikesNum] = useState(0);
+
+  const item = useSelector((state) => state.itemDetail);
   const [commentsNum, setCommentsNum] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const getItem = async () => {
     await axios
       .get(`/item/detail/${itemId}`)
       .then((res) => {
-        setItemData(res.data);
-        setLikesNum(res.data.likes);
+        dispatch(setItemDetail(res.data));
         setCommentsNum(res.data.comments.length);
+        setLoading(false);
       })
       .catch((err) => console.log(err));
-  };
-
-  const toggleLike = () => {
-    isLiked ? setLikesNum(likesNum - 1) : setLikesNum(likesNum + 1);
-    setIsLiked(!isLiked);
   };
 
   useEffect(() => {
     getItem();
   }, []);
 
-  return !!itemData ? (
-    <PostItemContainer>
-      <PostItemItem>
-        <PostAuthorWrap to="">
-          <AuthorImage src="" alt="" />
-          <AuthorName></AuthorName>
-        </PostAuthorWrap>
-        <ItemTitle>{itemData.name}</ItemTitle>
-        <ItemImage src={setImgSrc(itemData.itemImageUrl)} alt={itemData.name} />
-        <ItemInfoWrap>
-          <LikeAndComment>
-            <Like isLiked={isLiked} onClick={toggleLike}>
-              <span className="blind">좋아요 수</span>
-              {likesNum}
-            </Like>
+  if (!loading) {
+    const { itemImageUrl, name, instagramUrl } = item;
+
+    return (
+      <PostItemContainer>
+        <PostItemItem>
+          <PostAuthorWrap to="">
+            <AuthorImage src="" alt="" />
+            <AuthorName></AuthorName>
+          </PostAuthorWrap>
+          <ItemTitle>{name}</ItemTitle>
+          <ItemImage src={setImgSrc(itemImageUrl)} alt={name} />
+          <ItemInfoWrap>
             <Comment>
               <span className="blind">댓글 수</span>
               {commentsNum}
             </Comment>
-          </LikeAndComment>
-          <InstagramLink href={itemData.instagramUrl} target="_blank">
-            Instagram 이동하기 {'>'}
-          </InstagramLink>
-        </ItemInfoWrap>
-      </PostItemItem>
-    </PostItemContainer>
-  ) : (
-    <></>
-  );
+            <InstagramLink href={instagramUrl} target="_blank">
+              Instagram 이동하기 {'>'}
+            </InstagramLink>
+          </ItemInfoWrap>
+        </PostItemItem>
+      </PostItemContainer>
+    );
+  } else {
+    return <></>;
+  }
 }
 const PostItemContainer = styled.section`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -116,45 +108,20 @@ const ItemInfoWrap = styled.div`
   margin: 20px 0;
 `;
 
-const LikeAndComment = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Like = styled.p<{ isLiked?: boolean }>`
+const Comment = styled.p`
   position: relative;
   margin-left: 2.5rem;
 
   &:before {
-    display: block;
     content: '';
+    display: block;
     position: absolute;
-    top: -0.25rem;
+    top: -0.3rem;
     left: -2rem;
     width: 1.5rem;
     height: 1.5rem;
-    background-image: url('/images/heart_${(props) =>
-      props.isLiked ? 'red' : 'black'}.png');
-    background-size: cover;
-    ${(props) => props.isLiked && 'animation: liked .3s ease-in-out'};
-
-    @keyframes liked {
-      0% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.3);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-  }
-`;
-
-const Comment = styled(Like)`
-  &:before {
     background-image: url('/images/comment_black.png');
+    background-size: cover;
   }
 `;
 

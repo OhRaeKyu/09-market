@@ -1,28 +1,23 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { useSelector } from '@/hooks/useTypedSelector';
 
 import { PALLETS } from '@/utils/constants';
-
-import OptionModal from '@/components/OptionModal';
+import { setModalMode, setModalOpen } from '@/modules/modalModule';
 
 export default function ProfilePageHeader() {
-  const [optionClicked, setOptionClicked] = useState(false);
+  const dispatch = useDispatch();
+
+  const modalOpen = () => {
+    dispatch(setModalMode('로그아웃'));
+    dispatch(setModalOpen(true));
+  };
 
   return (
     <>
-      {optionClicked && (
-        <OptionModal
-          optionClicked={optionClicked}
-          setOptionClicked={setOptionClicked}
-          mode={'logout'}
-        />
-      )}
-
       <ProfilePageHeaderWrap>
-        <OptionButton
-          type="button"
-          onClick={() => setOptionClicked(!optionClicked)}
-        >
+        <OptionButton type="button" onClick={modalOpen}>
           <span className="blind">옵션 버튼</span>
         </OptionButton>
       </ProfilePageHeaderWrap>

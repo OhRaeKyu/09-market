@@ -1,10 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { useSelector } from '@/hooks/useTypedSelector';
 
 import { PALLETS } from '@/utils/constants';
+import { setModalMode, setModalOpen } from '@/modules/modalModule';
 
 interface GoBackHeaderProps {
-  headerTitle: string;
+  headerTitle?: string;
   setStep?: (step: string) => string;
   optionBtn?: boolean;
 }
@@ -15,6 +18,17 @@ export default function GoBackHeader({
   optionBtn,
 }: GoBackHeaderProps) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const currentUserId = sessionStorage.getItem('userId');
+  const { userId: itemWriterId } = useSelector((state) => state.itemDetail);
+  const isWriter = currentUserId == itemWriterId;
+
+  const modalOpen = () => {
+    dispatch(setModalMode('아이템삭제'));
+    dispatch(setModalOpen(true));
+  };
+
   return (
     <GoBackHeaderWrap>
       <GoBackHeaderItems>
@@ -27,7 +41,12 @@ export default function GoBackHeader({
           <span className="blind">뒤로가기 버튼</span>
         </GoBackButton>
         {headerTitle && <h1>{headerTitle}</h1>}
-        {optionBtn && <OptionBtn />}
+        {}
+        {optionBtn && isWriter && (
+          <OptionBtn onClick={modalOpen}>
+            <span className="blind">옵션 버튼</span>
+          </OptionBtn>
+        )}
       </GoBackHeaderItems>
     </GoBackHeaderWrap>
   );
@@ -70,11 +89,13 @@ const GoBackButton = styled.button`
 const OptionBtn = styled.button`
   position: absolute;
   right: 0;
-  width: 1.5rem;
-  height: 1.5rem;
 
   &::after {
     content: '';
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
     background-image: url('/images/more.png');
+    background-size: cover;
   }
 `;

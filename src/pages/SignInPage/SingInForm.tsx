@@ -14,21 +14,24 @@ export default function SingInForm() {
   const [inputEmail, setInputEmail] = useState('');
   const [inputPw, setInputPw] = useState('');
 
-  const handleUserData = (key, value) => {
+  const handleUserData = (key: string, value: string | number) => {
     setUserData((prevObject) => ({ ...prevObject, [key]: value }));
   };
 
-  const handleInputEmail = (e) => {
+  const handleInputEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputEmail(e.target.value);
     handleUserData('email', e.target.value);
   };
 
-  const handleInputPw = (e) => {
+  const handleInputPw = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputPw(e.target.value);
     handleUserData('password', e.target.value);
   };
 
-  const handleSignInBtn = async (userData) => {
+  const handleSignInBtn = async (userData: {
+    email: string;
+    password: string;
+  }) => {
     const data = {
       email: userData.email,
       password: userData.password,
@@ -37,8 +40,9 @@ export default function SingInForm() {
     await axios
       .post('/auth/signin', data)
       .then((res) => {
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('userId', res.data.userId);
+        sessionStorage.setItem('token', res.data.token);
+        sessionStorage.setItem('userId', res.data.userId);
+
         navigate('/');
       })
       .catch((err) => {

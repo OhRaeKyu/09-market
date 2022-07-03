@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useSelector } from '@/hooks/useTypedSelector';
 
 import { PALLETS } from '@/utils/constants';
 import { setCategory } from '@/modules/categoryModule';

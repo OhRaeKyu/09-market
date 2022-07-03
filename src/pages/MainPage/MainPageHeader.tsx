@@ -11,6 +11,7 @@ export default function Header() {
 
   useEffect(() => {
     let prevScrollTop = 0;
+
     window.addEventListener('scroll', () => {
       const nextScrollTop = window.pageYOffset || 0;
       if (nextScrollTop > prevScrollTop) {
@@ -32,7 +33,7 @@ export default function Header() {
   };
 
   return (
-    <HeaderWrap className={hide && 'header-sticky'}>
+    <HeaderWrap hide={hide}>
       <HeaderItems>
         <Logo onClick={() => handleLinkLogo()}>
           공구
@@ -46,7 +47,7 @@ export default function Header() {
   );
 }
 
-const HeaderWrap = styled.header`
+const HeaderWrap = styled.header<{ hide: boolean }>`
   box-sizing: border-box;
   position: fixed;
   top: 0;
@@ -55,10 +56,7 @@ const HeaderWrap = styled.header`
   color: ${PALLETS.WHITE};
   transition: all 0.3s;
   z-index: 9999;
-
-  &.header-sticky {
-    transform: translateY(-100px);
-  }
+  ${(props) => props.hide && 'transform: translateY(-100px)'}
 `;
 
 const HeaderItems = styled.div`

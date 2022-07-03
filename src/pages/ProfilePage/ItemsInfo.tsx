@@ -1,59 +1,29 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useSelector } from '@/hooks/useTypedSelector';
 
-import axios from '@/api/axios';
 import { setImgSrc } from '@/utils/setImgSrc';
 
-interface itemsData {
-  id: string;
-  itemImageUrl: string;
-  itemInfo: string;
-}
-
 export default function ItemsInfo() {
-  const userId = useParams().userId;
+  const items = useSelector((state) => state.userData.items.reverse());
 
-  const [itemsData, setItemsData] = useState<itemsData[]>([]);
-
-  const getUserItem = async (profileUserId: string) => {
-    const userToken = localStorage.getItem('token');
-
-    await axios
-      .get(`/user/${profileUserId}`, {
-        headers: { Authorization: `Bearer ${userToken}` },
-      })
-      .then((res) => {
-        console.log(res.data.items);
-        setItemsData(res.data.items.reverse());
-      })
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
-    if (!!userId) {
-      getUserItem(userId);
-    }
-  }, [userId]);
-
-  if (itemsData.length > 0) {
+  const renderItemsList = items.map((item) => {
+    const { id, itemImageUrl, itemInfo } = item;
     return (
-      <FeedInfoWrap>
-        <h2 className="blind">업로드한 상품 정보</h2>
-        <PostsContainer>
-          {itemsData.map((item, index) => (
-            <PostItem key={index}>
-              <Link to={`/item/detail/${item.id}`}>
-                <img src={setImgSrc(item.itemImageUrl)} alt={item.itemInfo} />
-              </Link>
-            </PostItem>
-          ))}
-        </PostsContainer>
-      </FeedInfoWrap>
+      <PostItem key={id}>
+        <Link to={`/item/detail/${id}`}>
+          <img src={setImgSrc(itemImageUrl)} alt={itemInfo} />
+        </Link>
+      </PostItem>
     );
-  } else {
-    return <NotExist>상품을 업로드하세요!</NotExist>;
-  }
+  });
+
+  return (
+    <FeedInfoWrap>
+      <h2 className="blind">업로드한 상품 정보</h2>
+      <PostsContainer>{renderItemsList}</PostsContainer>
+    </FeedInfoWrap>
+  );
 }
 
 const FeedInfoWrap = styled.section`

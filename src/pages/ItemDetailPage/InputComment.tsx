@@ -16,8 +16,8 @@ export default function InputComment() {
   };
 
   const handleSubmitBtn = async (comment: string) => {
-    const userToken = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
+    const userToken = sessionStorage.getItem('token');
+    const userId = sessionStorage.getItem('userId');
 
     const data = {
       itemId: params.itemId,

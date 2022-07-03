@@ -1,44 +1,54 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { useSelector } from '@/hooks/useTypedSelector';
 
 import { PALLETS } from '@/utils/constants';
+import { setModalOpen } from '@/modules/modalModule';
 
-interface OptionModalProps {
-  optionClicked: boolean;
-  setOptionClicked: (optionClicked: boolean) => boolean;
-  mode: string;
-}
-
-export default function OptionModal({
-  optionClicked,
-  setOptionClicked,
-  mode,
-}: OptionModalProps) {
+export default function OptionModal() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const mode = useSelector((state) => state.modeOfModal);
+
+  const modalClose = () => {
+    dispatch(setModalOpen(false));
+  };
 
   const logOut = () => {
-    localStorage.clear();
+    sessionStorage.clear();
     navigate('/signin');
   };
 
   const ProfileImgModify = () => {};
 
-  const optionItems = (modalMode: string) => {
+  const DeleteItem = () => {};
+
+  const optionItems = (modalMode: string | undefined) => {
     switch (modalMode) {
-      case 'logout':
+      case '로그아웃':
         return (
           <ModalItem>
-            <LogOutBtn type="button" onClick={logOut}>
+            <Option type="button" onClick={logOut}>
               로그아웃
-            </LogOutBtn>
+            </Option>
           </ModalItem>
         );
-      case 'profileImgModify':
+      case '프로필이미지수정':
         return (
           <ModalItem>
-            <ProfileImgModifyBtn type="button" onClick={ProfileImgModify}>
+            <Option type="button" onClick={ProfileImgModify}>
               이미지 변경
-            </ProfileImgModifyBtn>
+            </Option>
+          </ModalItem>
+        );
+      case '아이템삭제':
+        return (
+          <ModalItem>
+            <Option type="button" onClick={DeleteItem}>
+              아이템 삭제
+            </Option>
           </ModalItem>
         );
       default:
@@ -48,13 +58,8 @@ export default function OptionModal({
 
   return (
     <ModalWrap>
-      <ModalContainer
-        optionClicked
-        onClick={() => setOptionClicked(!optionClicked)}
-      >
-        {optionItems(mode)}
-      </ModalContainer>
-      <BackGround onClick={() => setOptionClicked(false)} />
+      <ModalContainer onClick={modalClose}>{optionItems(mode)}</ModalContainer>
+      <BackGround onClick={modalClose} />
     </ModalWrap>
   );
 }
@@ -66,8 +71,8 @@ const ModalWrap = styled.div`
   z-index: 9999;
 `;
 
-const ModalContainer = styled.ul<{ optionClicked: boolean }>`
-  display: ${(props) => (props.optionClicked ? 'block' : 'none')};
+const ModalContainer = styled.ul`
+  display: block;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -103,11 +108,9 @@ const ModalItem = styled.li`
   }
 `;
 
-const LogOutBtn = styled.button`
+const Option = styled.button`
   color: ${PALLETS.BLACK};
 `;
-
-const ProfileImgModifyBtn = styled(LogOutBtn)``;
 
 const BackGround = styled.div`
   background-color: rgba(0, 0, 0, 0.2);

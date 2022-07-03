@@ -1,30 +1,24 @@
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useSelector } from '@/hooks/useTypedSelector';
 
 import GoBackHeader from '@/components/GoBackHeader';
 import ItemData from './ItemData';
 import CommentsData from './CommentsData';
 import InputComment from './InputComment';
-
-export interface itemData {
-  name: string;
-  itemImageUrl: string;
-  isLiked?: boolean;
-  instagramUrl: string;
-}
+import OptionModal from '@/components/OptionModal';
 
 export default function ItemDetailPage() {
-  const itemId = useParams().itemId;
-  const userId = localStorage.getItem('userId');
+  const modalOpen = useSelector((state) => state.isModalOpen);
 
   return (
     <>
-      <GoBackHeader headerTitle="상품" />
+      <GoBackHeader headerTitle="상품" optionBtn />
       <ItemDetailWrap>
         <ItemData />
         <CommentsData />
         <InputComment />
       </ItemDetailWrap>
+      {!!modalOpen && <OptionModal />}
     </>
   );
 }
