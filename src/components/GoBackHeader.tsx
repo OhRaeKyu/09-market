@@ -22,7 +22,7 @@ export default function GoBackHeader({
 
   const currentUserId = sessionStorage.getItem('userId');
   const { userId: itemWriterId } = useSelector((state) => state.itemDetail);
-  const isWriter = currentUserId == itemWriterId;
+  const authorization = currentUserId == itemWriterId;
 
   const modalOpen = () => {
     dispatch(setModalMode('아이템삭제'));
@@ -42,7 +42,7 @@ export default function GoBackHeader({
         </GoBackButton>
         {headerTitle && <h1>{headerTitle}</h1>}
         {}
-        {optionBtn && isWriter && (
+        {optionBtn && authorization && (
           <OptionBtn onClick={modalOpen}>
             <span className="blind">옵션 버튼</span>
           </OptionBtn>

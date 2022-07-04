@@ -5,15 +5,23 @@ export const setCategory = (category: string) => ({
   payload: category,
 });
 
+interface InitCategory {
+  currentCategory: string;
+}
+
 type ReducerProps = ReturnType<typeof setCategory>;
 
+const initCategory = {
+  currentCategory: '전체',
+} as InitCategory;
+
 export const categoryReducer = (
-  state = '전체',
-  { type, payload }: ReducerProps
+  state: InitCategory = initCategory,
+  action: ReducerProps
 ) => {
-  switch (type) {
+  switch (action.type) {
     case SET_CATEGORY:
-      return payload;
+      return { ...state, currentCategory: action.payload };
 
     default:
       return state;

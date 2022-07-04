@@ -27,7 +27,9 @@ export default function ItemUploadPage() {
   };
 
   useEffect(() => {
-    getUserData();
+    if (isLogined()) {
+      getUserData();
+    }
   }, []);
 
   if (isLogined()) {

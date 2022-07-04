@@ -1,63 +1,36 @@
-import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
 import { useSelector } from '@/hooks/useTypedSelector';
 
-import axios from '@/api/axios';
 import { setImgSrc } from '@/utils/setImgSrc';
-import { setItemDetail } from '@/modules/itemModule';
 
 export default function ItemData() {
-  const dispatch = useDispatch();
-  const itemId = useParams().itemId;
-
   const item = useSelector((state) => state.itemDetail);
-  const [commentsNum, setCommentsNum] = useState(0);
-  const [loading, setLoading] = useState(true);
 
-  const getItem = async () => {
-    await axios
-      .get(`/item/detail/${itemId}`)
-      .then((res) => {
-        dispatch(setItemDetail(res.data));
-        setCommentsNum(res.data.comments.length);
-        setLoading(false);
-      })
-      .catch((err) => console.log(err));
-  };
+  const { userId, itemImageUrl, name, comments, instagramUrl } = item;
+  const commentsLength = comments.length;
 
-  useEffect(() => {
-    getItem();
-  }, []);
-
-  if (!loading) {
-    const { itemImageUrl, name, instagramUrl } = item;
-
-    return (
-      <PostItemContainer>
-        <PostItemItem>
-          <PostAuthorWrap to="">
-            <AuthorImage src="" alt="" />
-            <AuthorName></AuthorName>
-          </PostAuthorWrap>
-          <ItemTitle>{name}</ItemTitle>
-          <ItemImage src={setImgSrc(itemImageUrl)} alt={name} />
-          <ItemInfoWrap>
-            <Comment>
-              <span className="blind">댓글 수</span>
-              {commentsNum}
-            </Comment>
-            <InstagramLink href={instagramUrl} target="_blank">
-              Instagram 이동하기 {'>'}
-            </InstagramLink>
-          </ItemInfoWrap>
-        </PostItemItem>
-      </PostItemContainer>
-    );
-  } else {
-    return <></>;
-  }
+  return (
+    <PostItemContainer>
+      <PostItemItem>
+        <PostAuthorWrap to={`/profile/detail/${userId}`}>
+          <AuthorImage src="" alt="" />
+          <AuthorName></AuthorName>
+        </PostAuthorWrap>
+        <ItemTitle>{name}</ItemTitle>
+        <ItemImage src={setImgSrc(itemImageUrl)} alt={name} />
+        <ItemInfoWrap>
+          <Comment>
+            <span className="blind">댓글 수</span>
+            {commentsLength}
+          </Comment>
+          <InstagramLink href={instagramUrl} target="_blank">
+            Instagram 이동하기 {'>'}
+          </InstagramLink>
+        </ItemInfoWrap>
+      </PostItemItem>
+    </PostItemContainer>
+  );
 }
 const PostItemContainer = styled.section`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);

@@ -1,16 +1,18 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useSelector } from '@/hooks/useTypedSelector';
 
+import axios from '@/api/axios';
 import { PALLETS } from '@/utils/constants';
 import { setModalOpen } from '@/modules/modalModule';
 
 export default function OptionModal() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const itemId = useParams().itemId;
 
-  const mode = useSelector((state) => state.modeOfModal);
+  const { mode } = useSelector((state) => state.modeOfModal);
 
   const modalClose = () => {
     dispatch(setModalOpen(false));
@@ -23,7 +25,22 @@ export default function OptionModal() {
 
   const ProfileImgModify = () => {};
 
-  const DeleteItem = () => {};
+  const DeleteItem = async () => {
+    const userToken = sessionStorage.getItem('token');
+
+    await axios
+      .delete(`/item/${itemId}}`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const optionItems = (modalMode: string | undefined) => {
     switch (modalMode) {
@@ -46,7 +63,7 @@ export default function OptionModal() {
       case '아이템삭제':
         return (
           <ModalItem>
-            <Option type="button" onClick={DeleteItem}>
+            <Option type="button" onClick={() => DeleteItem()}>
               아이템 삭제
             </Option>
           </ModalItem>
@@ -87,7 +104,6 @@ const ModalContainer = styled.ul`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  padding: 20px;
 
   animation: modal 0.3s ease-out;
   z-index: 9999;
@@ -103,9 +119,9 @@ const ModalContainer = styled.ul`
 `;
 
 const ModalItem = styled.li`
-  & + li {
-    margin-top: 20px;
-  }
+  padding: 20px 0;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
 const Option = styled.button`

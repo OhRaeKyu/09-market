@@ -5,9 +5,9 @@ import { useSelector } from '@/hooks/useTypedSelector';
 import { setImgSrc } from '@/utils/setImgSrc';
 
 export default function ItemsInfo() {
-  const items = useSelector((state) => state.userData.items.reverse());
+  const { items } = useSelector((state) => state.userData);
 
-  const renderItemsList = items.map((item) => {
+  const renderItemsList = [...items].reverse().map((item) => {
     const { id, itemImageUrl, itemInfo } = item;
     return (
       <PostItem key={id}>

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useSelector } from '@/hooks/useTypedSelector';
@@ -8,6 +7,9 @@ import { setModalMode, setModalOpen } from '@/modules/modalModule';
 
 export default function ProfilePageHeader() {
   const dispatch = useDispatch();
+  const currentUserId = sessionStorage.getItem('userId');
+  const profileUserId = useSelector((state) => state.userData.userId);
+  const authorization = currentUserId == profileUserId;
 
   const modalOpen = () => {
     dispatch(setModalMode('로그아웃'));
@@ -15,13 +17,13 @@ export default function ProfilePageHeader() {
   };
 
   return (
-    <>
-      <ProfilePageHeaderWrap>
+    <ProfilePageHeaderWrap>
+      {authorization && (
         <OptionButton type="button" onClick={modalOpen}>
           <span className="blind">옵션 버튼</span>
         </OptionButton>
-      </ProfilePageHeaderWrap>
-    </>
+      )}
+    </ProfilePageHeaderWrap>
   );
 }
 

@@ -9,7 +9,7 @@ import OptionModal from '@/components/OptionModal';
 
 import { isLogined } from '@/utils/isLogined';
 import axios from '@/api/axios';
-import { deleteUserData, setUserData } from '@/modules/userModule';
+import { deleteUserData, setUserProfileData } from '@/modules/userModule';
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ export default function ProfilePage() {
 
   const [loading, setLoading] = useState(true);
   const userId = useParams().userId;
-  const modalOpen = useSelector((state) => state.isModalOpen);
+  const { modalOpen } = useSelector((state) => state.isModalOpen);
 
   const getUserData = async (userId: string) => {
     const userToken = sessionStorage.getItem('token');
@@ -27,8 +27,7 @@ export default function ProfilePage() {
         headers: { Authorization: `Bearer ${userToken}` },
       })
       .then((res) => {
-        console.log(res.data);
-        dispatch(setUserData(res.data));
+        dispatch(setUserProfileData(res.data));
         setLoading(false);
       })
       .catch((err) => {
@@ -44,7 +43,7 @@ export default function ProfilePage() {
     if (!!userId && isLogined()) {
       getUserData(userId);
     }
-  }, [userId]);
+  }, []);
 
   if (isLogined() && !loading) {
     return (

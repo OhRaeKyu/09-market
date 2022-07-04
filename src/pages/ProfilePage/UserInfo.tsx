@@ -10,6 +10,10 @@ export default function UserInfo() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const currentUserId = sessionStorage.getItem('userId');
+  const profileUserId = useSelector((state) => state.userData.userId);
+  const authorization = currentUserId == profileUserId;
+
   const { nickname, userImageUrl, userInfo } = useSelector(
     (state) => state.userData
   );
@@ -33,16 +37,18 @@ export default function UserInfo() {
         <UserProfileImg
           src={profileImgSrc(userImageUrl)}
           alt={`${nickname} 프로필 이미지`}
-          onClick={openModal}
+          onClick={authorization ? openModal : undefined}
         />
         <UserNameAndModify>
           <UserName>
             {nickname}
-            <span className="blind">프로필 페이지</span>
+            <span className="blind"> 프로필 페이지</span>
           </UserName>
-          <ProfileModifyBtn onClick={() => navigate('/profile/modify')}>
-            프로필 편집
-          </ProfileModifyBtn>
+          {authorization && (
+            <ProfileModifyBtn onClick={() => navigate('/profile/modify')}>
+              프로필 편집
+            </ProfileModifyBtn>
+          )}
         </UserNameAndModify>
       </UserInfoHeader>
       {/* <UserInfo */}
@@ -89,8 +95,8 @@ const UserNameAndModify = styled.div`
 `;
 
 const UserName = styled.h1`
-  font-family: 'GmarketSansBold';
   font-size: 1.3rem;
+  font-weight: 800;
   text-align: center;
 `;
 

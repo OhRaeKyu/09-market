@@ -10,7 +10,7 @@ export default function Category() {
   const categoryData = ['전체', '화장품', '기타'];
 
   const dispatch = useDispatch();
-  const currentCategory = useSelector((state: RootState) => state.category);
+  const { currentCategory } = useSelector((state: RootState) => state.category);
 
   const handleCategory = (e: React.MouseEvent) => {
     const eventTarget = e.target as HTMLElement;

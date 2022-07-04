@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -44,61 +44,63 @@ export default function ItemUploadForm() {
     inputUrl,
   ]);
 
-  const handleUserData = (key, value) => {
+  const handleUserData = (key: string, value: string | number) => {
     setPostData((prevObject) => ({ ...prevObject, [key]: value }));
   };
 
-  const handleInputImg = (e) => {
-    encodeFileToBase64(e.target.files[0]);
+  const handleInputImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      encodeFileToBase64(e.target.files[0]);
+    }
   };
 
-  const encodeFileToBase64 = (fileBlob) => {
+  const encodeFileToBase64 = (fileBlob: Blob) => {
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
-    return new Promise((resolve) => {
+    return new Promise<void>((resolve) => {
       reader.onload = () => {
-        setInputImgUrl(reader.result);
+        setInputImgUrl(String(reader.result));
         handleUserData(
           'itemImageUrl',
-          reader.result.replace(/^data:image\/[a-z]+;base64,/, '')
+          String(reader.result).replace(/^data:image\/[a-z]+;base64,/, '')
         );
         resolve();
       };
     });
   };
 
-  const handleInputName = (e) => {
+  const handleInputName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputName(e.target.value);
     handleUserData('name', e.target.value);
   };
 
-  const handleInputInfo = (e) => {
+  const handleInputInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputInfo(e.target.value);
     handleUserData('itemInfo', e.target.value);
   };
 
-  const handleInputPrice = (e) => {
-    setInputPrice(e.target.value);
-    handleUserData('price', parseInt(e.target.value, 10));
+  const handleInputPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputPrice(parseInt(e.target.value));
+    handleUserData('price', parseInt(e.target.value));
   };
 
-  const handleInputAmount = (e) => {
-    setInputAmount(e.target.value);
-    handleUserData('amount', parseInt(e.target.value, 10));
+  const handleInputAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputAmount(parseInt(e.target.value));
+    handleUserData('amount', parseInt(e.target.value));
   };
 
-  const handleInputCategory = (e) => {
+  const handleInputCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputCategory(e.target.value);
     handleUserData('category', e.target.value);
   };
 
-  const handleInputUrl = (e) => {
+  const handleInputUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputUrl(e.target.value);
     handleUserData('instagramUrl', e.target.value);
   };
 
-  const handleUploadBtn = (postData) => {
-    const userToken = localStorage.getItem('token');
+  const handleUploadBtn = (postData: {}) => {
+    const userToken = sessionStorage.getItem('token');
     const data = postData;
     const headers = {
       Authorization: `Bearer ${userToken}`,
@@ -203,7 +205,7 @@ const PostUploadWrap = styled.main`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: 95vw;
+  width: 90vw;
 
   input {
     border: 1px solid ${PALLETS.LIGHT_GRAY};
@@ -214,9 +216,13 @@ const Form = styled.form`
   label {
     margin: 0 0 5px 10px;
   }
+
+  @media screen and (min-width: 420px) {
+    width: 70vw;
+  }
 `;
 
-const ImgUpload = styled.label`
+const ImgUpload = styled.label<{ itemImgUrl: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -242,7 +248,7 @@ const UploadButton = styled.button`
   background-color: ${PALLETS.PURPLE};
   color: ${PALLETS.WHITE};
   padding: 15px 0;
-  width: 80%;
+  width: 70vw;
 
   &:disabled {
     cursor: inherit;

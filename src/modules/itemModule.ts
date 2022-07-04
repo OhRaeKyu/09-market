@@ -1,8 +1,6 @@
 const SET_ITEMS_LIST = 'item/SET_ITEMS_LIST';
 const SET_ITEM_DETAIL = 'item/SET_ITEM_DETAIL';
 
-const DELETE_USER_ITEM = 'item/DELETE_ITEM';
-
 export const setItemsList = (items: []) => ({
   type: SET_ITEMS_LIST,
   payload: items,
@@ -13,14 +11,15 @@ export const setItemDetail = (item: {}) => ({
   payload: item,
 });
 
-export const deleteItem = () => ({
-  type: DELETE_USER_ITEM,
-});
-
 interface Item {
   itemId: string;
   name: string;
   itemImageUrl: string;
+}
+
+interface Comment {
+  commentId: string;
+  content: string;
 }
 
 interface InitItemsList {
@@ -30,7 +29,7 @@ interface InitItemsList {
 }
 
 interface InitItemDetail extends Item {
-  comments: [];
+  comments: Comment[];
   userId: string;
   instagramUrl: string;
 }

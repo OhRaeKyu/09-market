@@ -1,44 +1,22 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSelector } from '@/hooks/useTypedSelector';
 
-import axios from '@/api/axios';
-
-interface commentsData {
-  itemId: string;
-  content: string;
-}
-
 export default function CommentsData() {
-  const itemId = useParams().itemId;
-  const comments = useSelector((state) => state.itemDetail.comments);
-  const [commentsData, setCommentsData] = useState<commentsData[]>([]);
+  const { comments } = useSelector((state) => state.itemDetail);
 
-  const getComments = useCallback(async () => {
-    await axios
-      .get(`/item/detail/${itemId}`)
-      .then((res) => {
-        console.log(res.data.comments.reverse());
-        setCommentsData(res.data.comments.reverse());
-      })
-      .catch((err) => console.log(err));
-  }, [itemId]);
+  const renderComments = [...comments].reverse().map((comment) => {
+    const { commentId, content } = comment;
+    return (
+      <CommentItem key={commentId}>
+        <UserInfoWrap></UserInfoWrap>
+        <CommentContent>{content}</CommentContent>
+      </CommentItem>
+    );
+  });
 
-  useEffect(() => {
-    getComments();
-  }, [getComments]);
-
-  return !!commentsData ? (
+  return comments.length > 0 ? (
     <CommentsWrap>
-      <CommentsList>
-        {commentsData.map((item) => (
-          <CommentItem key={item.itemId}>
-            <UserInfoWrap></UserInfoWrap>
-            <CommentContent>{item.content}</CommentContent>
-          </CommentItem>
-        ))}
-      </CommentsList>
+      <CommentsList>{renderComments}</CommentsList>
     </CommentsWrap>
   ) : (
     <></>

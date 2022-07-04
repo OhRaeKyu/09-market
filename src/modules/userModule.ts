@@ -1,8 +1,9 @@
 const SET_USER_DATA = 'user/SET_USER_DATA';
 const DELETE_USER_DATA = 'user/DELETE_USER_DATA';
+const OTHER_USER_DATA = 'user/OTHER_USER_DATA';
 
-export const setUserData = (data: {}) => ({
-  type: SET_USER_DATA,
+export const setUserProfileData = (data: {}) => ({
+  type: OTHER_USER_DATA,
   payload: data,
 });
 
@@ -24,19 +25,22 @@ interface InitUserData {
   items: Item[];
 }
 
-const initUserData = {} as InitUserData;
+const initOtherUserData = {} as InitUserData;
 
-type UserDataAction = ReturnType<typeof setUserData>;
+type UserDataAction = ReturnType<typeof setUserProfileData>;
 
 export const userDataReducer = (
-  state: InitUserData = initUserData,
+  state: InitUserData = initOtherUserData,
   action: UserDataAction
 ) => {
   switch (action.type) {
-    case SET_USER_DATA:
-      return { ...state, ...action.payload };
+    case OTHER_USER_DATA:
+      return {
+        ...state,
+        ...action.payload,
+      };
     case DELETE_USER_DATA:
-      return initUserData;
+      return { ...state, ...initOtherUserData };
     default:
       return state;
   }

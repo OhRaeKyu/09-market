@@ -14,7 +14,9 @@ import FeedLoading from './FeedLoading';
 export default function FeedItems() {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.itemsList.items);
-  const currentCategory = useSelector((state) => state.category);
+  const currentCategory = useSelector(
+    (state) => state.category.currentCategory
+  );
 
   const getFeedItems = async (category: string) => {
     const url = category === '전체' ? '/item' : `/item/${category}`;
