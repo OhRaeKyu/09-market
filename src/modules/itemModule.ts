@@ -28,7 +28,7 @@ interface InitItemsList {
   })[];
 }
 
-interface InitItemDetail extends Item {
+export interface InitItemDetail extends Item {
   comments: Comment[];
   userId: string;
   instagramUrl: string;

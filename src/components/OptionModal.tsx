@@ -27,15 +27,14 @@ export default function OptionModal() {
 
   const DeleteItem = async () => {
     const userToken = sessionStorage.getItem('token');
+    const headers = {
+      Authorization: `Bearer ${userToken}`,
+    };
 
     await axios
-      .delete(`/item/${itemId}}`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      })
-      .then((res) => {
-        console.log(res);
+      .delete(`/item/${itemId}`, { headers })
+      .then(() => {
+        navigate('/');
       })
       .catch((err) => {
         console.log(err);

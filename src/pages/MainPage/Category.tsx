@@ -7,7 +7,7 @@ import { setCategory } from '@/modules/categoryModule';
 import { RootState } from '@/modules/index';
 
 export default function Category() {
-  const categoryData = ['전체', '화장품', '기타'];
+  const categoryData = ['전체', '식품', '기타'];
 
   const dispatch = useDispatch();
   const { currentCategory } = useSelector((state: RootState) => state.category);

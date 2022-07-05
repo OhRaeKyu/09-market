@@ -69,10 +69,6 @@ const ItemImage = styled.img`
   width: 100%;
   object-fit: cover;
   border-radius: 5px;
-
-  @media screen and (min-width: 420px) {
-    height: 500px;
-  }
 `;
 
 const ItemInfoWrap = styled.div`

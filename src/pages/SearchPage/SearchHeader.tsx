@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -9,7 +9,7 @@ export default function SearchHeader() {
 
   const [inpKeyword, setInpKeyword] = useState('');
 
-  const handleInputKeyword = (e) => {
+  const handleInputKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInpKeyword(e.target.value);
     navigate(`/search?q=${e.target.value}`);
   };

@@ -1,67 +1,64 @@
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { useSelector } from '@/hooks/useTypedSelector';
 
 import axios from '@/api/axios';
 import { PALLETS } from '@/utils/constants';
+import { InitUserData, setUserData } from '@/modules/userModule';
 
-import AddressModal from './AddressModal';
-
-export default function PersonalInformation({ userData, handleUserData }) {
+export default function PersonalInformation() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.userData);
+  const { nickname, mobile, address, zipcode } = userData;
 
   const [addressClicked, setAddressClicked] = useState(false);
-  const [inputName, setInputName] = useState('');
-  const [inputPhone, setInputPhone] = useState('');
-  const [inputAddress, setInputAddress] = useState('');
-  const [inputZipcode, setInputZipcode] = useState(0);
 
   const [error, setError] = useState('');
   const [disabledBtn, setDisabledBtn] = useState(true);
 
-  useEffect(() => {
+  const signUpVerify = () => {
     if (
       error.length === 0 &&
-      inputName.length > 0 &&
-      inputPhone.length > 0 &&
-      inputAddress.length > 0 &&
-      inputZipcode.length > 0
+      nickname.length > 0 &&
+      mobile.length > 0 &&
+      address.length > 0 &&
+      zipcode > 0
     ) {
       setError('');
       setDisabledBtn(false);
     } else {
       setDisabledBtn(true);
     }
-  }, [error, inputName, inputPhone, inputAddress, inputZipcode]);
-
-  const handleInputName = (e) => {
-    setInputName(e.target.value);
-    handleUserData('nickname', e.target.value);
   };
 
-  const handleInputPhone = (e) => {
-    setInputPhone(e.target.value);
+  const handleInputName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setUserData({ nickname: e.target.value }));
+  };
 
+  const handleInputPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checkPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+
+    dispatch(setUserData({ mobile: e.target.value }));
+
     if (checkPhone.test(e.target.value)) {
       setError('');
-      handleUserData('mobile', e.target.value);
     } else {
       setError('전화번호 형식이 유효하지 않습니다.');
     }
   };
 
-  const handleInputAddress = (e) => {
-    setInputAddress(e.target.value);
-    handleUserData('address', e.target.value);
+  const handleInputAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setUserData({ address: e.target.value }));
   };
 
-  const handleInputZipcode = (e) => {
-    setInputZipcode(e.target.value);
-    handleUserData('zipcode', e.target.value);
+  const handleInputZipcode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setUserData({ zipcode: e.target.value }));
   };
 
-  const signUp = async (userData) => {
+  const signUp = async (userData: InitUserData) => {
     const data = {
       email: userData.email,
       password: userData.password,
@@ -93,9 +90,9 @@ export default function PersonalInformation({ userData, handleUserData }) {
             required
             autoFocus
             id="inpName"
-            value={inputName}
+            value={nickname}
             onChange={handleInputName}
-            className="mb-25"
+            onKeyUp={signUpVerify}
           />
           <label htmlFor="inpPhone">전화번호</label>
           <input
@@ -103,9 +100,9 @@ export default function PersonalInformation({ userData, handleUserData }) {
             placeholder="- 를 제외하고 숫자만 입력해주세요."
             required
             id="inpPhone"
-            value={inputPhone}
+            value={mobile}
             onChange={handleInputPhone}
-            className="mb-25"
+            onKeyUp={signUpVerify}
           />
           <label htmlFor="inpAddress">주소(수정 예정)</label>
           <input
@@ -113,9 +110,9 @@ export default function PersonalInformation({ userData, handleUserData }) {
             placeholder="주소 입력"
             required
             id="inpAddress"
-            value={inputAddress}
+            value={address}
             onChange={handleInputAddress}
-            className="mb-25"
+            onKeyUp={signUpVerify}
           />
           <label htmlFor="inpZipcode">우편번호(수정 예정)</label>
           <input
@@ -123,18 +120,16 @@ export default function PersonalInformation({ userData, handleUserData }) {
             placeholder="우편번호 입력"
             required
             id="inpZipcode"
-            maxlength="5"
-            value={inputZipcode}
+            maxLength={5}
+            value={zipcode}
             onChange={handleInputZipcode}
-            className="mb-25"
+            onKeyUp={signUpVerify}
           />
           {/* <button type="button" onClick={() => setAddressClicked(true)}>
             주소검색
           </button> */}
           <ErrorText>{error}</ErrorText>
         </Form>
-        {addressClicked && <AddressModal />}
-
         <SignUpButton
           type="button"
           disabled={disabledBtn}
@@ -163,10 +158,6 @@ const Form = styled.form`
   flex-direction: column;
   width: 80%;
   padding: 20px 10px;
-
-  .mb-25 {
-    margin-bottom: 25px;
-  }
 
   input {
     border: 1px solid ${PALLETS.LIGHT_GRAY};

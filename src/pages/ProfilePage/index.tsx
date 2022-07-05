@@ -9,7 +9,7 @@ import OptionModal from '@/components/OptionModal';
 
 import { isLogined } from '@/utils/isLogined';
 import axios from '@/api/axios';
-import { deleteUserData, setUserProfileData } from '@/modules/userModule';
+import { setUserProfile } from '@/modules/userModule';
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
@@ -27,12 +27,11 @@ export default function ProfilePage() {
         headers: { Authorization: `Bearer ${userToken}` },
       })
       .then((res) => {
-        dispatch(setUserProfileData(res.data));
+        dispatch(setUserProfile(res.data));
         setLoading(false);
       })
       .catch((err) => {
         if (err.response.status !== 200) {
-          dispatch(deleteUserData());
           sessionStorage.clear();
           navigate('/signin');
         }

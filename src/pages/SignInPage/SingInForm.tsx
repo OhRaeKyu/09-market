@@ -1,51 +1,47 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import axios from '@/api/axios';
 import { PALLETS } from '@/utils/constants';
 
+interface SignInUserData {
+  email: string;
+  password: string;
+}
+
 export default function SingInForm() {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState({
+  const [userData, setUserData] = useState<SignInUserData>({
     email: '',
     password: '',
   });
-  const [inputEmail, setInputEmail] = useState('');
-  const [inputPw, setInputPw] = useState('');
 
-  const handleUserData = (key: string, value: string | number) => {
-    setUserData((prevObject) => ({ ...prevObject, [key]: value }));
+  const pressEnterKey = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSignInBtn(userData);
+    }
   };
 
   const handleInputEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputEmail(e.target.value);
-    handleUserData('email', e.target.value);
+    setUserData({ ...userData, email: e.target.value });
   };
 
   const handleInputPw = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputPw(e.target.value);
-    handleUserData('password', e.target.value);
+    setUserData({ ...userData, password: e.target.value });
   };
 
-  const handleSignInBtn = async (userData: {
-    email: string;
-    password: string;
-  }) => {
-    const data = {
-      email: userData.email,
-      password: userData.password,
-    };
-
+  const handleSignInBtn = async (userData: SignInUserData) => {
     await axios
-      .post('/auth/signin', data)
+      .post('/auth/signin', userData)
       .then((res) => {
-        sessionStorage.setItem('token', res.data.token);
-        sessionStorage.setItem('userId', res.data.userId);
+        const { token, userId } = res.data;
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('userId', userId);
 
         navigate('/');
       })
-      .catch((err) => {
+      .catch(() => {
         window.alert('아이디 혹은 비밀번호가 일치하지 않습니다.');
       });
   };
@@ -57,7 +53,7 @@ export default function SingInForm() {
         type="text"
         required
         placeholder="아이디 입력"
-        value={inputEmail}
+        value={userData.email}
         onChange={handleInputEmail}
       />
       <label className="blind">비밀번호 입력</label>
@@ -65,8 +61,9 @@ export default function SingInForm() {
         type="password"
         required
         placeholder="비밀번호 입력"
-        value={inputPw}
+        value={userData.password}
         onChange={handleInputPw}
+        onKeyUp={pressEnterKey}
       />
       <SignInButton type="button" onClick={() => handleSignInBtn(userData)}>
         로그인

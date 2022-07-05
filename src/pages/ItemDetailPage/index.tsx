@@ -52,4 +52,6 @@ export default function ItemDetailPage() {
   );
 }
 
-const ItemDetailWrap = styled.main``;
+const ItemDetailWrap = styled.main`
+  padding-bottom: 150px;
+`;

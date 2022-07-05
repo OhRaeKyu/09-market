@@ -24,7 +24,7 @@ export default function CommentsData() {
 }
 
 const CommentsWrap = styled.section`
-  padding: 20px 15px 150px;
+  padding: 20px 15px 0;
 `;
 
 const CommentsList = styled.ul`

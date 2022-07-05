@@ -8,7 +8,7 @@ import { setModalMode, setModalOpen } from '@/modules/modalModule';
 export default function ProfilePageHeader() {
   const dispatch = useDispatch();
   const currentUserId = sessionStorage.getItem('userId');
-  const profileUserId = useSelector((state) => state.userData.userId);
+  const profileUserId = useSelector((state) => state.userProfile.userId);
   const authorization = currentUserId == profileUserId;
 
   const modalOpen = () => {

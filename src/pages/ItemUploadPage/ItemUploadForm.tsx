@@ -5,52 +5,53 @@ import styled from 'styled-components';
 import { PALLETS } from '@/utils/constants';
 import axios from '@/api/axios';
 
+interface ItemUploadFormData {
+  itemImageUrl: string;
+  name: string;
+  itemInfo: string;
+  price: number;
+  amount: number;
+  category: string;
+  instagramUrl: string;
+}
+
 export default function ItemUploadForm() {
   const navigate = useNavigate();
 
-  const [inputImgUrl, setInputImgUrl] = useState('');
-  const [inputName, setInputName] = useState('');
-  const [inputInfo, setInputInfo] = useState('');
-  const [inputPrice, setInputPrice] = useState(0);
-  const [inputAmount, setInputAmount] = useState(0);
-  const [inputCategory, setInputCategory] = useState('');
-  const [inputUrl, setInputUrl] = useState('');
+  const [formData, setFormData] = useState<ItemUploadFormData>({
+    itemImageUrl: '',
+    name: '',
+    itemInfo: '',
+    price: 0,
+    amount: 0,
+    category: '',
+    instagramUrl: '',
+  });
 
-  const [postData, setPostData] = useState({});
+  const [disabledBtn, setDisabledBtn] = useState<boolean>(true);
 
-  const [disabledBtn, setDisabledBtn] = useState(true);
-
-  useEffect(() => {
+  const uploadVerify = () => {
+    const {
+      itemImageUrl,
+      name,
+      itemInfo,
+      price,
+      amount,
+      category,
+      instagramUrl,
+    } = formData;
     if (
-      inputImgUrl.length > 0 &&
-      inputName.length > 0 &&
-      inputInfo.length > 0 &&
-      inputPrice > 0 &&
-      inputAmount > 0 &&
-      inputCategory.length > 0 &&
-      inputUrl.length > 0
+      itemImageUrl.length > 0 &&
+      name.length > 0 &&
+      itemInfo.length > 0 &&
+      price > 0 &&
+      amount > 0 &&
+      category.length > 0 &&
+      instagramUrl.length > 0
     ) {
       setDisabledBtn(false);
     } else {
       setDisabledBtn(true);
-    }
-  }, [
-    inputImgUrl,
-    inputName,
-    inputInfo,
-    inputPrice,
-    inputAmount,
-    inputCategory,
-    inputUrl,
-  ]);
-
-  const handleUserData = (key: string, value: string | number) => {
-    setPostData((prevObject) => ({ ...prevObject, [key]: value }));
-  };
-
-  const handleInputImg = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      encodeFileToBase64(e.target.files[0]);
     }
   };
 
@@ -59,56 +60,48 @@ export default function ItemUploadForm() {
     reader.readAsDataURL(fileBlob);
     return new Promise<void>((resolve) => {
       reader.onload = () => {
-        setInputImgUrl(String(reader.result));
-        handleUserData(
-          'itemImageUrl',
-          String(reader.result).replace(/^data:image\/[a-z]+;base64,/, '')
-        );
+        setFormData({
+          ...formData,
+          itemImageUrl: String(reader.result),
+        });
         resolve();
       };
     });
   };
 
-  const handleInputName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputName(e.target.value);
-    handleUserData('name', e.target.value);
+  const handleInputImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      encodeFileToBase64(e.target.files[0]);
+    }
   };
 
-  const handleInputInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputInfo(e.target.value);
-    handleUserData('itemInfo', e.target.value);
+  const handleFormData = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    key: string
+  ) => {
+    if (key === ('price' || 'amount')) {
+      setFormData({ ...formData, [key]: parseInt(e.target.value) });
+    } else {
+      setFormData({ ...formData, [key]: e.target.value });
+    }
   };
 
-  const handleInputPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputPrice(parseInt(e.target.value));
-    handleUserData('price', parseInt(e.target.value));
-  };
-
-  const handleInputAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputAmount(parseInt(e.target.value));
-    handleUserData('amount', parseInt(e.target.value));
-  };
-
-  const handleInputCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputCategory(e.target.value);
-    handleUserData('category', e.target.value);
-  };
-
-  const handleInputUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputUrl(e.target.value);
-    handleUserData('instagramUrl', e.target.value);
-  };
-
-  const handleUploadBtn = (postData: {}) => {
+  const handleUploadBtn = (uploadData: ItemUploadFormData) => {
+    const data = {
+      ...uploadData,
+      itemImageUrl: uploadData.itemImageUrl.replace(
+        /^data:image\/[a-z]+;base64,/,
+        ''
+      ),
+    };
     const userToken = sessionStorage.getItem('token');
-    const data = postData;
     const headers = {
       Authorization: `Bearer ${userToken}`,
     };
 
     axios
       .post(`/item`, data, { headers })
-      .then((res) => {
+      .then(() => {
         navigate('/');
       })
       .catch((err) => {
@@ -119,14 +112,14 @@ export default function ItemUploadForm() {
   return (
     <PostUploadWrap>
       <Form>
-        <ImgUpload itemImgUrl={inputImgUrl}>
+        <ImgUpload itemImgUrl={formData.itemImageUrl}>
           <input
             type="file"
             className="blind"
             accept="image/*"
             onChange={handleInputImg}
           />
-          {inputImgUrl.length === 0 && '+'}
+          {formData.itemImageUrl.length === 0 && '+'}
         </ImgUpload>
         <label htmlFor="inpName">상품명</label>
         <input
@@ -134,8 +127,9 @@ export default function ItemUploadForm() {
           placeholder="상품명 입력"
           required
           id="inpName"
-          value={inputName}
-          onChange={handleInputName}
+          value={formData.name}
+          onChange={(e) => handleFormData(e, 'name')}
+          onKeyUp={uploadVerify}
         />
         <label htmlFor="inpInfo">상품정보</label>
         <input
@@ -143,17 +137,19 @@ export default function ItemUploadForm() {
           placeholder="상품정보 입력"
           required
           id="inpInfo"
-          value={inputInfo}
-          onChange={handleInputInfo}
+          value={formData.itemInfo}
+          onChange={(e) => handleFormData(e, 'itemInfo')}
+          onKeyUp={uploadVerify}
         />
         <label htmlFor="inpPrice">가격</label>
         <input
           type="number"
-          placeholder="가격 입력."
+          placeholder="가격 입력"
           required
           id="inpPrice"
-          value={inputPrice}
-          onChange={handleInputPrice}
+          value={formData.price}
+          onChange={(e) => handleFormData(e, 'price')}
+          onKeyUp={uploadVerify}
         />
         <label htmlFor="inpAmount">수량</label>
         <input
@@ -161,8 +157,9 @@ export default function ItemUploadForm() {
           placeholder="수량 입력"
           required
           id="inpAmount"
-          value={inputAmount}
-          onChange={handleInputAmount}
+          value={formData.amount}
+          onChange={(e) => handleFormData(e, 'amount')}
+          onKeyUp={uploadVerify}
         />
         <label htmlFor="inpCategory">카테고리(수정 예정)</label>
         <input
@@ -170,8 +167,9 @@ export default function ItemUploadForm() {
           placeholder="카테고리 입력"
           required
           id="inpCategory"
-          value={inputCategory}
-          onChange={handleInputCategory}
+          value={formData.category}
+          onChange={(e) => handleFormData(e, 'category')}
+          onKeyUp={uploadVerify}
         />
         <label htmlFor="inpUrl">Instgram URL</label>
         <input
@@ -179,14 +177,15 @@ export default function ItemUploadForm() {
           placeholder="URL 입력"
           required
           id="inpUrl"
-          value={inputUrl}
-          onChange={handleInputUrl}
+          value={formData.instagramUrl}
+          onChange={(e) => handleFormData(e, 'instagramUrl')}
+          onKeyUp={uploadVerify}
         />
       </Form>
       <UploadButton
         type="button"
         disabled={disabledBtn}
-        onClick={() => handleUploadBtn(postData)}
+        onClick={() => handleUploadBtn(formData)}
       >
         게시하기
       </UploadButton>
@@ -226,20 +225,20 @@ const ImgUpload = styled.label<{ itemImgUrl: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${PALLETS.WHITE};
-  width: 100%;
-  height: 250px;
+  width: 300px;
+  height: 300px;
   margin: 0 auto 20px !important;
   font-size: 3rem;
+  color: rgba(0, 0, 0, 0.3);
 
   ${(props) =>
-    props.itemImgUrl.length > 0
-      ? `background-image:url(${props.itemImgUrl});`
-      : `background-color : ${PALLETS.PURPLE};`}
+    props.itemImgUrl.length > 0 && `background-image:url(${props.itemImgUrl});`}
   background-size: cover;
+  border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
 
   @media screen and (min-width: 420px) {
+    width: 500px;
     height: 500px;
   }
 `;

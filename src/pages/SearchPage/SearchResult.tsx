@@ -1,38 +1,40 @@
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { useSelector } from '@/hooks/useTypedSelector';
+import { useLocation, Link } from 'react-router-dom';
 
 import axios from '@/api/axios';
 import { PALLETS } from '@/utils/constants';
 import { setImgSrc } from '@/utils/setImgSrc';
-import { setItemsList } from '@/modules/itemModule';
+import { useDebounce } from '@/hooks/useDebounce';
+import { InitItemDetail } from '@/modules/itemModule';
 
-import FeedLoading from './FeedLoading';
+export default function SearchResult() {
+  const [resultItems, setResultItems] = useState<InitItemDetail[]>([]);
 
-export default function FeedItems() {
-  const dispatch = useDispatch();
-  const { items } = useSelector((state) => state.itemsList);
-  const { currentCategory } = useSelector((state) => state.category);
+  const searchQuery = new URLSearchParams(useLocation().search);
+  const searchKeyword = useDebounce(searchQuery.get('q'), 300);
 
-  const getFeedItems = async (category: string) => {
-    const url = category === '전체' ? '/item' : `/item/${category}`;
-
+  const getSeacrhItem = async (keyword: string) => {
     await axios
-      .get(url)
+      .get(`/item/search/${keyword}`)
       .then((res) => {
-        dispatch(setItemsList(res.data.reverse()));
+        setResultItems(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
-    getFeedItems(currentCategory);
-  }, [currentCategory]);
+    if (!!searchKeyword) {
+      getSeacrhItem(searchKeyword);
+    } else {
+      setResultItems([]);
+    }
+  }, [searchKeyword]);
 
-  const renderItemsList = items.map((item) => {
-    const { itemId, itemImageUrl, name, comments } = item;
+  const renderResultList = resultItems.map((item) => {
+    const { itemId, name, itemImageUrl, comments } = item;
 
     return (
       <PostItem key={itemId}>
@@ -40,7 +42,7 @@ export default function FeedItems() {
           <ItemImage src={setImgSrc(itemImageUrl)} alt={name} />
           <ItemComment>
             <span className="blind">댓글 수</span>
-            {comments}
+            {comments.length}
           </ItemComment>
           <ItemBackground />
         </Link>
@@ -48,15 +50,21 @@ export default function FeedItems() {
     );
   });
 
-  return items.length > 0 ? (
-    <>
-      <h2 className="blind">{currentCategory} 카테고리 게시글</h2>
-      <PostsWrap>{renderItemsList}</PostsWrap>
-    </>
-  ) : (
-    <FeedLoading />
-  );
+  if (resultItems.length > 0) {
+    return (
+      <SearchResultWrap>
+        <h2 className="blind">검색 결과</h2>
+        <PostsWrap>{renderResultList}</PostsWrap>
+      </SearchResultWrap>
+    );
+  } else {
+    return <></>;
+  }
 }
+
+const SearchResultWrap = styled.main`
+  margin-top: 70px;
+`;
 
 const PostsWrap = styled.ul`
   display: flex;

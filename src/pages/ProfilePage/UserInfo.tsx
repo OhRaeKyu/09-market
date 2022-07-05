@@ -11,11 +11,11 @@ export default function UserInfo() {
   const dispatch = useDispatch();
 
   const currentUserId = sessionStorage.getItem('userId');
-  const profileUserId = useSelector((state) => state.userData.userId);
+  const profileUserId = useSelector((state) => state.userProfile.userId);
   const authorization = currentUserId == profileUserId;
 
   const { nickname, userImageUrl, userInfo } = useSelector(
-    (state) => state.userData
+    (state) => state.userProfile
   );
 
   const profileImgSrc = (url: string | null) => {

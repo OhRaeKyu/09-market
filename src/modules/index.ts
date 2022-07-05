@@ -3,7 +3,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { categoryReducer } from './categoryModule';
 import { itemsListReducer, itemDetailReducer } from './itemModule';
 import { modalModeReducer, modalOpenReducer } from './modalModule';
-import { userDataReducer } from './userModule';
+import { userDataReducer, userProfileReducer } from './userModule';
 
 const rootReducer = combineReducers({
   category: categoryReducer,
@@ -15,6 +15,7 @@ const rootReducer = combineReducers({
   modeOfModal: modalModeReducer,
 
   userData: userDataReducer,
+  userProfile: userProfileReducer,
 });
 
 export default rootReducer;

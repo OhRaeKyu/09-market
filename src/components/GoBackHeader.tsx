@@ -8,7 +8,7 @@ import { setModalMode, setModalOpen } from '@/modules/modalModule';
 
 interface GoBackHeaderProps {
   headerTitle?: string;
-  setStep?: (step: string) => string;
+  setStep?: React.Dispatch<React.SetStateAction<string>>;
   optionBtn?: boolean;
 }
 
