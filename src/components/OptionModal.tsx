@@ -6,6 +6,7 @@ import { useSelector } from '@/hooks/useTypedSelector';
 import axios from '@/api/axios';
 import { PALLETS } from '@/utils/constants';
 import { setModalOpen } from '@/modules/modalModule';
+import { deleteUserData } from '@/modules/userModule';
 
 export default function OptionModal() {
   const navigate = useNavigate();
@@ -13,19 +14,19 @@ export default function OptionModal() {
   const itemId = useParams().itemId;
 
   const { mode } = useSelector((state) => state.modeOfModal);
+  const { commentId } = useSelector((state) => state.commentId);
 
   const modalClose = () => {
     dispatch(setModalOpen(false));
   };
 
   const logOut = () => {
+    dispatch(deleteUserData());
     sessionStorage.clear();
     navigate('/signin');
   };
 
-  const ProfileImgModify = () => {};
-
-  const DeleteItem = async () => {
+  const deleteItem = async () => {
     const userToken = sessionStorage.getItem('token');
     const headers = {
       Authorization: `Bearer ${userToken}`,
@@ -41,43 +42,55 @@ export default function OptionModal() {
       });
   };
 
-  const optionItems = (modalMode: string | undefined) => {
-    switch (modalMode) {
+  const deleteComment = async () => {
+    const userToken = sessionStorage.getItem('token');
+    const headers = {
+      Authorization: `Bearer ${userToken}`,
+    };
+
+    await axios
+      .delete(`/comment/${commentId}`, { headers })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const modalClick = (mode: string) => {
+    switch (mode) {
       case '로그아웃':
-        return (
-          <ModalItem>
-            <Option type="button" onClick={logOut}>
-              로그아웃
-            </Option>
-          </ModalItem>
-        );
-      case '프로필이미지수정':
-        return (
-          <ModalItem>
-            <Option type="button" onClick={ProfileImgModify}>
-              이미지 변경
-            </Option>
-          </ModalItem>
-        );
-      case '아이템삭제':
-        return (
-          <ModalItem>
-            <Option type="button" onClick={() => DeleteItem()}>
-              아이템 삭제
-            </Option>
-          </ModalItem>
-        );
+        return logOut();
+      case '아이템 삭제':
+        return deleteItem();
+      case '댓글 삭제':
+        return deleteComment();
       default:
         break;
     }
   };
 
-  return (
-    <ModalWrap>
-      <ModalContainer onClick={modalClose}>{optionItems(mode)}</ModalContainer>
-      <BackGround onClick={modalClose} />
-    </ModalWrap>
-  );
+  const renderOptions = mode.map((item, index) => {
+    return (
+      <ModalItem key={index}>
+        <Option type="button" onClick={() => modalClick(item)}>
+          {item}
+        </Option>
+      </ModalItem>
+    );
+  });
+
+  if (mode.length > 0) {
+    return (
+      <ModalWrap>
+        <ModalContainer onClick={modalClose}>{renderOptions}</ModalContainer>
+        <BackGround onClick={modalClose} />
+      </ModalWrap>
+    );
+  } else {
+    return <></>;
+  }
 }
 
 const ModalWrap = styled.div`

@@ -21,20 +21,19 @@ export default function ProfilePage() {
 
   const getUserData = async (userId: string) => {
     const userToken = sessionStorage.getItem('token');
+    const headers = {
+      Authorization: `Bearer ${userToken}`,
+    };
 
     await axios
-      .get(`/user/${userId}`, {
-        headers: { Authorization: `Bearer ${userToken}` },
-      })
+      .get(`/user/${userId}`, { headers })
       .then((res) => {
         dispatch(setUserProfile(res.data));
         setLoading(false);
       })
-      .catch((err) => {
-        if (err.response.status !== 200) {
-          sessionStorage.clear();
-          navigate('/signin');
-        }
+      .catch(() => {
+        sessionStorage.clear();
+        navigate('/signin');
       });
   };
 

@@ -18,12 +18,16 @@ export default function ItemsInfo() {
     );
   });
 
-  return (
-    <FeedInfoWrap>
-      <h2 className="blind">업로드한 상품 정보</h2>
-      <PostsContainer>{renderItemsList}</PostsContainer>
-    </FeedInfoWrap>
-  );
+  if (items.length > 0) {
+    return (
+      <FeedInfoWrap>
+        <h2 className="blind">업로드한 상품 정보</h2>
+        <PostsContainer>{renderItemsList}</PostsContainer>
+      </FeedInfoWrap>
+    );
+  } else {
+    return <></>;
+  }
 }
 
 const FeedInfoWrap = styled.section`

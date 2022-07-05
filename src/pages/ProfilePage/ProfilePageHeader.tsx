@@ -12,7 +12,7 @@ export default function ProfilePageHeader() {
   const authorization = currentUserId == profileUserId;
 
   const modalOpen = () => {
-    dispatch(setModalMode('로그아웃'));
+    dispatch(setModalMode(['로그아웃']));
     dispatch(setModalOpen(true));
   };
 

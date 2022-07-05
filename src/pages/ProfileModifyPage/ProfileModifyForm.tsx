@@ -81,7 +81,7 @@ export default function ProfileModifyForm() {
     await axios
       .put(`/auth/${userId}/update`, userData)
       .then((res) => {
-        navigate('/signin');
+        navigate(`/profile/detail/${userId}`);
       })
       .catch((err) => {
         console.log(err);

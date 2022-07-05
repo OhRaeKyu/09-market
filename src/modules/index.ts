@@ -1,7 +1,11 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
 import { categoryReducer } from './categoryModule';
-import { itemsListReducer, itemDetailReducer } from './itemModule';
+import {
+  itemsListReducer,
+  itemDetailReducer,
+  deleteCommentReducer,
+} from './itemModule';
 import { modalModeReducer, modalOpenReducer } from './modalModule';
 import { userDataReducer, userProfileReducer } from './userModule';
 
@@ -10,6 +14,7 @@ const rootReducer = combineReducers({
 
   itemsList: itemsListReducer,
   itemDetail: itemDetailReducer,
+  commentId: deleteCommentReducer,
 
   isModalOpen: modalOpenReducer,
   modeOfModal: modalModeReducer,

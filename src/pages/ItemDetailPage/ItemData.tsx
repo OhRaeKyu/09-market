@@ -1,33 +1,38 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSelector } from '@/hooks/useTypedSelector';
 
 import { setImgSrc } from '@/utils/setImgSrc';
 
+import WriterProfile from './WriterProfile';
+import { PALLETS } from '@/utils/constants';
+
 export default function ItemData() {
   const item = useSelector((state) => state.itemDetail);
 
-  const { userId, itemImageUrl, name, comments, instagramUrl } = item;
+  const { itemImageUrl, name, price, itemInfo, comments, instagramUrl } = item;
   const commentsLength = comments.length;
 
   return (
     <PostItemContainer>
       <PostItemItem>
-        <PostAuthorWrap to={`/profile/detail/${userId}`}>
-          <AuthorImage src="" alt="" />
-          <AuthorName></AuthorName>
-        </PostAuthorWrap>
-        <ItemTitle>{name}</ItemTitle>
+        <WriterProfile />
         <ItemImage src={setImgSrc(itemImageUrl)} alt={name} />
+        <ItemTitle>{name}</ItemTitle>
+
+        <ItemExplanation>{itemInfo}</ItemExplanation>
         <ItemInfoWrap>
           <Comment>
             <span className="blind">댓글 수</span>
             {commentsLength}
           </Comment>
-          <InstagramLink href={instagramUrl} target="_blank">
-            Instagram 이동하기 {'>'}
-          </InstagramLink>
+          <ItemPrice>
+            공구가
+            <span> {price}</span>원
+          </ItemPrice>
         </ItemInfoWrap>
+        <InstagramLink href={instagramUrl} target="_blank">
+          Instagram 이동하기 {'>'}
+        </InstagramLink>
       </PostItemItem>
     </PostItemContainer>
   );
@@ -47,28 +52,21 @@ const PostItemItem = styled.div`
   }
 `;
 
-const PostAuthorWrap = styled(Link)`
-  display: flex;
-  align-items: center;
-  height: 50px;
-`;
-
-const AuthorImage = styled.img``;
-
-const AuthorName = styled.p``;
-
-const ItemTitle = styled.h2`
-  margin-left: 0.5rem;
-  margin-bottom: 10px;
-  font-size: 1.5rem;
-  font-family: 'GmarketSansBold';
-`;
-
 const ItemImage = styled.img`
   position: relative;
   width: 100%;
   object-fit: cover;
   border-radius: 5px;
+`;
+
+const ItemTitle = styled.h2`
+  margin: 20px 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+`;
+
+const ItemExplanation = styled.p`
+  color: rgba(0, 0, 0, 0.6);
 `;
 
 const ItemInfoWrap = styled.div`
@@ -79,7 +77,7 @@ const ItemInfoWrap = styled.div`
 
 const Comment = styled.p`
   position: relative;
-  margin-left: 2.5rem;
+  margin-left: 2rem;
 
   &:before {
     content: '';
@@ -94,4 +92,23 @@ const Comment = styled.p`
   }
 `;
 
-const InstagramLink = styled.a``;
+const ItemPrice = styled.p`
+  span {
+    font-family: 'GmarketSansBold';
+    font-size: 1.5rem;
+  }
+`;
+
+const InstagramLink = styled.a`
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 1rem;
+
+  height: 2rem;
+  line-height: 2rem;
+  background-color: ${PALLETS.WHITE};
+  border: 1px solid ${PALLETS.BLACK};
+  border-radius: 1rem;
+`;

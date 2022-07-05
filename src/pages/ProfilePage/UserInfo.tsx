@@ -1,22 +1,75 @@
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useSelector } from '@/hooks/useTypedSelector';
 
+import axios from '@/api/axios';
 import { setImgSrc } from '@/utils/setImgSrc';
-import { setModalMode, setModalOpen } from '@/modules/modalModule';
+import { setUserData } from '@/modules/userModule';
 
 export default function UserInfo() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const inputImgFile = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const [changeImg, setChangeImg] = useState('');
 
   const currentUserId = sessionStorage.getItem('userId');
   const profileUserId = useSelector((state) => state.userProfile.userId);
   const authorization = currentUserId == profileUserId;
 
+  const userData = useSelector((state) => state.userData);
   const { nickname, userImageUrl, userInfo } = useSelector(
     (state) => state.userProfile
   );
+
+  const modifyProfileImg = async (imgUrl: string) => {
+    const userToken = sessionStorage.getItem('token');
+    const userId = sessionStorage.getItem('userId');
+    const headers = {
+      Authorization: `Bearer ${userToken}`,
+    };
+
+    await axios
+      .get(`/auth/${userId}/update`, { headers })
+      .then((res) => {
+        dispatch(setUserData(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    await axios
+      .put(`/auth/${currentUserId}/update`, {
+        ...userData,
+        userImageUrl: imgUrl,
+      })
+      .then(() => {
+        navigate(`/profile/detail/${currentUserId}`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const encodeFileToBase64 = (fileBlob: Blob) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(fileBlob);
+    return new Promise<void>((resolve) => {
+      reader.onload = () => {
+        setChangeImg(
+          String(reader.result).replace(/^data:image\/[a-z]+;base64,/, '')
+        );
+        resolve();
+      };
+    });
+  };
+
+  const handleInputImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      encodeFileToBase64(e.target.files[0]);
+    }
+  };
 
   const profileImgSrc = (url: string | null) => {
     if (!url) {
@@ -26,10 +79,11 @@ export default function UserInfo() {
     }
   };
 
-  const openModal = () => {
-    dispatch(setModalMode('프로필이미지수정'));
-    dispatch(setModalOpen(true));
-  };
+  useEffect(() => {
+    if (changeImg.length > 0) {
+      modifyProfileImg(changeImg);
+    }
+  }, [changeImg]);
 
   return (
     <UserInfoWrap>
@@ -37,7 +91,9 @@ export default function UserInfo() {
         <UserProfileImg
           src={profileImgSrc(userImageUrl)}
           alt={`${nickname} 프로필 이미지`}
-          onClick={authorization ? openModal : undefined}
+          onClick={
+            authorization ? () => inputImgFile.current.click() : undefined
+          }
         />
         <UserNameAndModify>
           <UserName>
@@ -51,7 +107,14 @@ export default function UserInfo() {
           )}
         </UserNameAndModify>
       </UserInfoHeader>
-      {/* <UserInfo */}
+      <Form className="blind">
+        <ImgInput
+          type="file"
+          accept="image/*"
+          onChange={handleInputImg}
+          ref={inputImgFile}
+        />
+      </Form>
     </UserInfoWrap>
   );
 }
@@ -109,3 +172,7 @@ const ProfileModifyBtn = styled.button`
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
 `;
+
+const Form = styled.form``;
+
+const ImgInput = styled.input``;

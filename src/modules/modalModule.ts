@@ -6,7 +6,7 @@ export const setModalOpen = (modalOpen: boolean) => ({
   payload: modalOpen,
 });
 
-export const setModalMode = (mode: string) => ({
+export const setModalMode = (mode: string[]) => ({
   type: SET_MODAL_MODE,
   payload: mode,
 });
@@ -16,14 +16,14 @@ interface InitModalOpen {
 }
 
 interface InitModalMode {
-  mode: string;
+  mode: string[];
 }
 
 type ModalOpenAction = ReturnType<typeof setModalOpen>;
 type ModalModeAction = ReturnType<typeof setModalMode>;
 
 const initModalOpen = { modalOpen: false } as InitModalOpen;
-const initModalMode = { mode: '' } as InitModalMode;
+const initModalMode = { mode: [] } as InitModalMode;
 
 export const modalOpenReducer = (
   state: InitModalOpen = initModalOpen,

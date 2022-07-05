@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from '@/hooks/useTypedSelector';
 
 import axios from '@/api/axios';
+import { isLogined } from '@/utils/isLogined';
 
 import GoBackHeader from '@/components/GoBackHeader';
 import OptionModal from '@/components/OptionModal';
@@ -45,7 +46,7 @@ export default function ItemDetailPage() {
             <CommentsData />
           </>
         )}
-        <InputComment />
+        {isLogined() && <InputComment />}
       </ItemDetailWrap>
       {!!modalOpen && <OptionModal />}
     </>

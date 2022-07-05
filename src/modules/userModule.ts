@@ -23,6 +23,7 @@ export interface InitUserData {
   mobile: string;
   address: string;
   zipcode: number;
+  userImageUrl: string | null;
 }
 
 interface Item {
@@ -59,6 +60,8 @@ export const userDataReducer = (
   switch (action.type) {
     case SET_USER_DATA:
       return { ...state, ...action.payload };
+    case DELETE_USER_DATA:
+      return { ...state, ...initUserData };
     default:
       return state;
   }
