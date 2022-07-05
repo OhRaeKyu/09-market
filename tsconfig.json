@@ -26,14 +26,5 @@
   },
   "include": ["src"],
   "typeRoots": ["node_modules/@types", "src/@type"],
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "src/setupTests.ts",
-    "./node_modules/**/*"
-  ]
+  "exclude": ["node_modules", "build"]
 }

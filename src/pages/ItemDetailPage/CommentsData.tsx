@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useSelector } from '@/hooks/useTypedSelector';
@@ -18,7 +19,7 @@ export default function CommentsData() {
 
   const profileImgSrc = (url: string | null) => {
     if (!url) {
-      return '/images/profileImg.png';
+      return '/assets/profileImg.png';
     } else {
       return setImgSrc(url);
     }

@@ -1,45 +1,84 @@
 const path = require('path');
-
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-
 module.exports = {
-  entry: {
-    'js/app': ['./src/index.tsx'],
-  },
-  resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
-  },
+  mode: 'production',
+  devtool: 'source-map',
+  entry: `./src/index.tsx`,
   output: {
-    path: path.resolve(__dirname, 'dist/'),
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
     publicPath: '/',
   },
+
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', 'jsx'],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+  },
+
   module: {
     rules: [
       {
-        test: [/\.jsx?$/, /\.tsx?$/],
-        use: ['babel-loader'],
+        test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
+        use: 'ts-loader',
+      },
+      {
+        enforce: 'pre',
+        test: /\.js$/,
+        loader: 'source-map-loader',
       },
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        use: [
-          'file-loader?hash=sha512&digest=hex&name=img/[contenthash].[ext]',
-          'image-webpack-loader?bypassOnDebug&optipng.optimizationLevel=7&gifsicle.interlaced=false',
-        ],
+        test: /\.png$/,
+        loader: 'file-loader',
       },
     ],
   },
+
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html',
-      filename: 'index.html',
+      template: `./public/index.html`,
+      favicon: './public/favicon.ico',
     }),
-    new ForkTsCheckerWebpackPlugin(),
+    new webpack.ProvidePlugin({
+      React: 'react',
+    }),
   ],
+
+  // externals: {
+  //   react: 'React',
+  //   'react-dom': 'ReactDOM',
+  // },
+
+  // devServer: {
+  //   static: {
+  //     directory: path.join(__dirname, 'dist'),
+  //   },
+  // },
 };
+
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+// module.exports = {
+//   plugins: [
+//     new HtmlWebpackPlugin({
+//       template: `./public/index.html`,
+//       favicon: './public/favicon.ico',
+//     }),
+//     new webpack.ProvidePlugin({
+//       React: 'react',
+//     }),
+//   ],
+
+//   resolve: {
+//     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
+//   },
+//   output: { path: path.resolve(__dirname, './dist'), filename: '[name].js' },
+// };

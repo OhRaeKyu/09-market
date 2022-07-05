@@ -1,3 +1,4 @@
+import React from 'react';
 import SearchHeader from './SearchHeader';
 import SearchResult from './SearchResult';
 

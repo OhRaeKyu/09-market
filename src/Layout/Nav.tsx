@@ -59,10 +59,6 @@ const NavItem = styled.li`
     background-image: url('/images/home.png');
   }
 
-  .link-category {
-    background-image: url('/images/category.png');
-  }
-
   .link-upload {
     background-image: url('/images/plus.png');
   }

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import GoBackHeader from '@/components/GoBackHeader';
+import React from 'react';
 import ProfileModifyForm from './ProfileModifyForm';
 import { useDispatch } from 'react-redux';
 

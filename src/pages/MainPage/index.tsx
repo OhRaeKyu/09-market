@@ -1,3 +1,4 @@
+import React from 'react';
 import Category from './Category';
 import FeedItems from './FeedItems';
 
