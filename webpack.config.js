@@ -1,14 +1,25 @@
 const path = require('path');
-const webpack = require('webpack');
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+
 module.exports = {
-  entry: `./src/index.tsx`,
+  entry: {
+    'js/app': ['./src/index.tsx'],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist/'),
+    publicPath: '/',
+  },
   module: {
     rules: [
       {
-        test: /\.(ts|tsx|js|jsx)$/,
-        use: 'babel-loader',
+        test: [/\.jsx?$/, /\.tsx?$/],
+        use: ['babel-loader'],
         exclude: /node_modules/,
       },
       {
@@ -16,32 +27,19 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.png$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            publicPath: '../dist',
-          },
-        },
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: [
+          'file-loader?hash=sha512&digest=hex&name=img/[contenthash].[ext]',
+          'image-webpack-loader?bypassOnDebug&optipng.optimizationLevel=7&gifsicle.interlaced=false',
+        ],
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: `./public/index.html`,
-      favicon: './public/favicon.ico',
+      template: './public/index.html',
+      filename: 'index.html',
     }),
-    new webpack.ProvidePlugin({
-      React: 'react',
-    }),
+    new ForkTsCheckerWebpackPlugin(),
   ],
-  optimization: { minimize: true },
-
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
-    },
-    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
-  },
-  output: { path: path.resolve(__dirname, './dist'), filename: '[name].js' },
 };

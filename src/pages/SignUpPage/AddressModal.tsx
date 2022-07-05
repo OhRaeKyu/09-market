@@ -1,3 +1,9 @@
+import React from 'react';
+
+export default function AddressModal() {
+  return <div>AddressModal</div>;
+}
+
 // import React, { useEffect, useState } from 'react';
 
 // import DaumPostcode from 'react-daum-postcode';
