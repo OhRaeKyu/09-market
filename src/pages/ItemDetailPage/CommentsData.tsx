@@ -8,6 +8,9 @@ import { setImgSrc } from '@/utils/setImgSrc';
 import { setModalMode, setModalOpen } from '@/modules/modalModule';
 import { setDeleteComment } from '@/modules/itemModule';
 
+import profileSrc from '@/images/profileImg.png';
+import moreSrc from '@/images/more.png';
+
 export default function CommentsData() {
   const dispatch = useDispatch();
   const { comments } = useSelector((state) => state.itemDetail);
@@ -19,7 +22,7 @@ export default function CommentsData() {
 
   const profileImgSrc = (url: string | null) => {
     if (!url) {
-      return '/assets/profileImg.png';
+      return profileSrc;
     } else {
       return setImgSrc(url);
     }
@@ -74,6 +77,7 @@ const CommentsList = styled.ul`
 `;
 
 const CommentItem = styled.li`
+  position: relative;
   display: flex;
   padding: 10px 0;
 `;
@@ -105,7 +109,7 @@ const OptionBtn = styled.button`
     display: block;
     width: 1.5rem;
     height: 1.5rem;
-    background-image: url('/images/more.png');
+    background-image: url(${moreSrc});
     background-size: cover;
   }
 `;

@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import { PALLETS } from '@/utils/constants';
+import homeSrc from '@/images/home.png';
+import uploadSrc from '@/images/plus.png';
+import profileSrc from '@/images/profile.png';
 
 export default function Nav() {
   const userId = sessionStorage.getItem('userId');
@@ -56,14 +59,14 @@ const NavItem = styled.li`
   }
 
   .link-home {
-    background-image: url('/images/home.png');
+    background-image: url(${homeSrc});
   }
 
   .link-upload {
-    background-image: url('/images/plus.png');
+    background-image: url(${uploadSrc});
   }
 
   .link-profile {
-    background-image: url('/images/profile.png');
+    background-image: url(${profileSrc});
   }
 `;

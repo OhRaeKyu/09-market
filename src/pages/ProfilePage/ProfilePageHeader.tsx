@@ -6,6 +6,8 @@ import { useSelector } from '@/hooks/useTypedSelector';
 import { PALLETS } from '@/utils/constants';
 import { setModalMode, setModalOpen } from '@/modules/modalModule';
 
+import optionSrc from '@/images/option.png';
+
 export default function ProfilePageHeader() {
   const dispatch = useDispatch();
   const currentUserId = sessionStorage.getItem('userId');
@@ -46,6 +48,6 @@ const OptionButton = styled.button`
   right: 7vw;
   width: 25px;
   height: 25px;
-  background-image: url('/images/option.png');
+  background-image: url(${optionSrc});
   background-size: cover;
 `;

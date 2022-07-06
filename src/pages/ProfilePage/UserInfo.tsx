@@ -8,6 +8,8 @@ import axios from '@/api/axios';
 import { setImgSrc } from '@/utils/setImgSrc';
 import { setUserData } from '@/modules/userModule';
 
+import profileSrc from '@/images/profileImg.png';
+
 export default function UserInfo() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,26 +28,14 @@ export default function UserInfo() {
   const modifyProfileImg = async (imgUrl: string) => {
     const userToken = sessionStorage.getItem('token');
     const userId = sessionStorage.getItem('userId');
-    const headers = {
-      Authorization: `Bearer ${userToken}`,
-    };
 
     await axios
-      .get(`/auth/${userId}/update`, { headers })
-      .then((res) => {
-        dispatch(setUserData(res.data));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    await axios
-      .put(`/auth/${currentUserId}/update`, {
-        ...userData,
+      .put(`/auth/${userId}/update`, {
         userImageUrl: imgUrl,
       })
       .then(() => {
-        navigate(`/profile/detail/${currentUserId}`);
+        console.log('update 성공');
+        navigate(`/profile/detail/${userId}`);
       })
       .catch((err) => {
         console.log(err);
@@ -73,7 +63,7 @@ export default function UserInfo() {
 
   const profileImgSrc = (url: string | null) => {
     if (!url) {
-      return '/images/profileImg.png';
+      return profileSrc;
     } else {
       return setImgSrc(url);
     }

@@ -6,6 +6,7 @@ import { setImgSrc } from '@/utils/setImgSrc';
 
 import WriterProfile from './WriterProfile';
 import { PALLETS } from '@/utils/constants';
+import commentSrc from '@/images/comment_black.png';
 
 export default function ItemData() {
   const item = useSelector((state) => state.itemDetail);
@@ -73,6 +74,7 @@ const ItemExplanation = styled.p`
 const ItemInfoWrap = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 20px 0;
 `;
 
@@ -88,7 +90,7 @@ const Comment = styled.p`
     left: -2rem;
     width: 1.5rem;
     height: 1.5rem;
-    background-image: url('/images/comment_black.png');
+    background-image: url(${commentSrc});
     background-size: cover;
   }
 `;

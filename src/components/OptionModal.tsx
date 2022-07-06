@@ -51,8 +51,8 @@ export default function OptionModal() {
 
     await axios
       .delete(`/comment/${commentId}`, { headers })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        navigate(`/item/detail/${itemId}`);
       })
       .catch((err) => {
         console.log(err);

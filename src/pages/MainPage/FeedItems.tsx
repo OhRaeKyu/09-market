@@ -8,6 +8,7 @@ import axios from '@/api/axios';
 import { PALLETS } from '@/utils/constants';
 import { setImgSrc } from '@/utils/setImgSrc';
 import { setItemsList } from '@/modules/itemModule';
+import commentSrc from '@/images/comment_white.png';
 
 import FeedLoading from './FeedLoading';
 
@@ -38,11 +39,11 @@ export default function FeedItems() {
       <PostItem key={itemId}>
         <Link to={`/item/detail/${itemId}`}>
           <ItemImage src={setImgSrc(itemImageUrl)} alt={name} />
+          <ItemBackground />
           <ItemComment>
             <span className="blind">댓글 수</span>
             {comments}
           </ItemComment>
-          <ItemBackground />
         </Link>
       </PostItem>
     );
@@ -101,13 +102,11 @@ const ItemComment = styled.p`
     content: '';
     width: 1rem;
     height: 1rem;
-    background-image: url('/images/comment_white.png');
+    background-image: url(${commentSrc});
     background-size: cover;
     position: absolute;
     left: -25px;
   }
-
-  z-index: 10;
 `;
 
 const ItemBackground = styled.div`

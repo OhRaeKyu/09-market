@@ -20,7 +20,7 @@ export default function ProfilePage() {
   const userId = useParams().userId;
   const { modalOpen } = useSelector((state) => state.isModalOpen);
 
-  const getUserData = async (userId: string) => {
+  const getUserProfile = async (userId: string) => {
     const userToken = sessionStorage.getItem('token');
     const headers = {
       Authorization: `Bearer ${userToken}`,
@@ -40,7 +40,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!!userId && isLogined()) {
-      getUserData(userId);
+      getUserProfile(userId);
     }
   }, []);
 

@@ -222,6 +222,7 @@ const Form = styled.form`
 `;
 
 const ImgUpload = styled.label<{ itemImgUrl: string }>`
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 import { PALLETS } from '@/utils/constants';
 
+import searchSrc from '@/images/search.png';
+
 export default function Header() {
   const navigate = useNavigate();
 
@@ -85,6 +87,6 @@ const ColorLogo = styled.span`
 const SearchButton = styled(Link)`
   width: 25px;
   height: 25px;
-  background-image: url('/images/search.png');
+  background-image: url(${searchSrc});
   background-size: cover;
 `;

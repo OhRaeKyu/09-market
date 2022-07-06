@@ -6,6 +6,8 @@ import { useSelector } from '@/hooks/useTypedSelector';
 import axios from '@/api/axios';
 import { setImgSrc } from '@/utils/setImgSrc';
 
+import profileSrc from '@/images/profileImg.png';
+
 export default function WriterProfile() {
   const userId = useSelector((state) => state.itemDetail.userId);
   const [writerImgUrl, setWriterImgUrl] = useState('');
@@ -35,7 +37,7 @@ export default function WriterProfile() {
 
   const profileImgSrc = (url: string | null) => {
     if (!url) {
-      return '/images/profileImg.png';
+      return profileSrc;
     } else {
       return setImgSrc(url);
     }

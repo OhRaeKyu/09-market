@@ -6,6 +6,8 @@ import { useSelector } from '@/hooks/useTypedSelector';
 import { PALLETS } from '@/utils/constants';
 import { setModalMode, setModalOpen } from '@/modules/modalModule';
 
+import moreSrc from '@/images/more.png';
+
 interface GoBackHeaderProps {
   headerTitle?: string;
   setStep?: React.Dispatch<React.SetStateAction<string>>;
@@ -95,7 +97,7 @@ const OptionBtn = styled.button`
     display: block;
     width: 1.5rem;
     height: 1.5rem;
-    background-image: url('/images/more.png');
+    background-image: url(${moreSrc});
     background-size: cover;
   }
 `;

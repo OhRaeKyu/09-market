@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { PALLETS } from '@/utils/constants';
+import searchSrc from '@/images/search.png';
 
 export default function SearchHeader() {
   const navigate = useNavigate();
@@ -68,7 +69,7 @@ const SearchHeaderItems = styled.div`
 const SearchButton = styled.button`
   width: 25px;
   height: 25px;
-  background-image: url('/images/search.png');
+  background-image: url(${searchSrc});
   background-size: cover;
 `;
 

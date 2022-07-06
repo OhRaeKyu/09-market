@@ -1,11 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'production',
   devtool: 'source-map',
   entry: `./src/index.tsx`,
+
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -13,7 +15,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', 'jsx'],
+    extensions: ['.ts', '.tsx', '.js'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
@@ -24,7 +26,7 @@ module.exports = {
       {
         test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
-        use: 'ts-loader',
+        use: 'babel-loader',
       },
       {
         enforce: 'pre',
@@ -36,8 +38,12 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.png$/,
-        loader: 'file-loader',
+        test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+        type: 'asset/resource',
+        generator: {
+          publicPath: '/images/',
+          outputPath: 'images/',
+        },
       },
     ],
   },
@@ -47,38 +53,11 @@ module.exports = {
       template: `./public/index.html`,
       favicon: './public/favicon.ico',
     }),
+    new MiniCssExtractPlugin({
+      filename: 'style.css',
+    }),
     new webpack.ProvidePlugin({
       React: 'react',
     }),
   ],
-
-  // externals: {
-  //   react: 'React',
-  //   'react-dom': 'ReactDOM',
-  // },
-
-  // devServer: {
-  //   static: {
-  //     directory: path.join(__dirname, 'dist'),
-  //   },
-  // },
 };
-
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-// module.exports = {
-//   plugins: [
-//     new HtmlWebpackPlugin({
-//       template: `./public/index.html`,
-//       favicon: './public/favicon.ico',
-//     }),
-//     new webpack.ProvidePlugin({
-//       React: 'react',
-//     }),
-//   ],
-
-//   resolve: {
-//     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
-//   },
-//   output: { path: path.resolve(__dirname, './dist'), filename: '[name].js' },
-// };

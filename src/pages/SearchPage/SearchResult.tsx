@@ -8,6 +8,8 @@ import { setImgSrc } from '@/utils/setImgSrc';
 import { useDebounce } from '@/hooks/useDebounce';
 import { InitItemDetail } from '@/modules/itemModule';
 
+import commentSrc from '@/images/comment_white.png';
+
 export default function SearchResult() {
   const [resultItems, setResultItems] = useState<InitItemDetail[]>([]);
 
@@ -109,7 +111,7 @@ const ItemComment = styled.p`
     content: '';
     width: 1rem;
     height: 1rem;
-    background-image: url('/images/comment_white.png');
+    background-image: url(${commentSrc});
     background-size: cover;
     position: absolute;
     left: -25px;
