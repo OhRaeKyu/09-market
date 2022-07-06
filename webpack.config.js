@@ -60,4 +60,8 @@ module.exports = {
       React: 'react',
     }),
   ],
+
+  devServer: {
+    historyApiFallback: true,
+  },
 };
