@@ -14,6 +14,7 @@ import ItemData from './ItemData';
 import CommentsData from './CommentsData';
 import InputComment from './InputComment';
 import { setItemDetail } from '@/modules/itemModule';
+import ItemLoading from './ItemLoading';
 
 export default function ItemDetailPage() {
   const dispatch = useDispatch();
@@ -41,11 +42,14 @@ export default function ItemDetailPage() {
     <>
       <GoBackHeader headerTitle="상품" optionBtn />
       <ItemDetailWrap>
-        {!loading && (
+        {!loading ? (
           <>
             <ItemData />
             <CommentsData />
           </>
+        ) : (
+          // <ItemLoading />
+          <ItemLoading />
         )}
         {isLogined() && <InputComment />}
       </ItemDetailWrap>

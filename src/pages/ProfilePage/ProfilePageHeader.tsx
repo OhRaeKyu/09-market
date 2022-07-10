@@ -45,7 +45,7 @@ const ProfilePageHeaderWrap = styled.header`
 
 const OptionButton = styled.button`
   position: absolute;
-  right: 7vw;
+  right: 10vw;
   width: 25px;
   height: 25px;
   background-image: url(${optionSrc});

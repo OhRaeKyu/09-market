@@ -1,3 +1,3 @@
 export const setImgSrc = (url: string) => {
-  return 'data:image/png;base64,'.concat(url);
+  return 'data:image/jpg;base64,'.concat(url);
 };

@@ -31,7 +31,7 @@ export default function UserInfo() {
 
     await axios
       .put(`/auth/${userId}/update`, {
-        userImageUrl: imgUrl,
+        ['userImageUrl']: imgUrl,
       })
       .then(() => {
         console.log('update 성공');
@@ -116,17 +116,17 @@ const UserInfoWrap = styled.section`
   align-items: center;
   justify-content: space-evenly;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 `;
 
 const UserInfoHeader = styled.header`
   display: flex;
   align-items: center;
-  margin: 1rem;
   width: 100%;
-  max-width: 350px;
+  max-width: 320px;
 
   @media screen and (min-width: 420px) {
-    max-width: 500px;
+    max-width: 700px;
   }
 `;
 
@@ -157,7 +157,6 @@ const ProfileModifyBtn = styled.button`
   font-size: 0.75rem;
   margin-top: 1rem;
   width: 100%;
-  max-width: 400px;
   padding: 10px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;

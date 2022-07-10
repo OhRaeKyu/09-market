@@ -27,7 +27,7 @@ export default function GoBackHeader({
   const authorization = currentUserId == itemWriterId;
 
   const modalOpen = () => {
-    dispatch(setModalMode(['아이템 수정', '아이템 삭제']));
+    dispatch(setModalMode(['게시물 수정', '게시물 삭제']));
     dispatch(setModalOpen(true));
   };
 

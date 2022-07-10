@@ -27,6 +27,10 @@ export default function OptionModal() {
     navigate('/signin');
   };
 
+  const modifyItem = () => {
+    navigate(`/item/modify/${itemId}`);
+  };
+
   const deleteItem = async () => {
     const userToken = sessionStorage.getItem('token');
     const headers = {
@@ -63,7 +67,9 @@ export default function OptionModal() {
     switch (mode) {
       case '로그아웃':
         return logOut();
-      case '아이템 삭제':
+      case '게시물 수정':
+        return modifyItem();
+      case '게시물 삭제':
         return deleteItem();
       case '댓글 삭제':
         return deleteComment();
@@ -108,8 +114,6 @@ const ModalContainer = styled.ul`
   left: 0;
   color: ${PALLETS.BLACK};
   background-color: ${PALLETS.WHITE};
-  border: 1px solid ${PALLETS.PURPLE};
-  border-bottom: none;
   border-radius: 15px 15px 0 0;
 
   box-sizing: border-box;

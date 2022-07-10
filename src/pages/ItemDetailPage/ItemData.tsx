@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { useSelector } from '@/hooks/useTypedSelector';
 
+import { PALLETS } from '@/utils/constants';
 import { setImgSrc } from '@/utils/setImgSrc';
+import { setPriceNotation } from '@/utils/setPriceNotation';
+import commentSrc from '@/images/comment_black.png';
 
 import WriterProfile from './WriterProfile';
-import { PALLETS } from '@/utils/constants';
-import commentSrc from '@/images/comment_black.png';
 
 export default function ItemData() {
   const item = useSelector((state) => state.itemDetail);
@@ -29,7 +30,7 @@ export default function ItemData() {
           </Comment>
           <ItemPrice>
             공구가
-            <span> {price}</span>원
+            <span> {setPriceNotation(price)}</span>원
           </ItemPrice>
         </ItemInfoWrap>
         <InstagramLink href={instagramUrl} target="_blank">
@@ -109,9 +110,11 @@ const InstagramLink = styled.a`
   transform: translateX(-50%);
   padding: 0 1rem;
 
+  width: 170px;
   height: 2rem;
   line-height: 2rem;
   background-color: ${PALLETS.WHITE};
-  border: 1px solid ${PALLETS.BLACK};
+  border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 1rem;
+  z-index: 9999;
 `;

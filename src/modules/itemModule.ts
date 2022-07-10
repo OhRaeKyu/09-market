@@ -44,6 +44,7 @@ export interface InitItemDetail extends Item {
   itemInfo: string;
   price: number;
   amount: number;
+  category: string;
 }
 
 interface InitDeleteComment {

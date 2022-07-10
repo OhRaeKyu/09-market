@@ -8,9 +8,10 @@ import SplashPage from './pages/SplashPage';
 import MainPage from './pages/MainPage';
 import ProfilePage from './pages/ProfilePage';
 import ProfileModifyPage from './pages/ProfileModifyPage';
-import ItemDetailPage from './pages/ItemDetailPage';
-import SearchPage from './pages/SearchPage';
 import ItemUploadPage from './pages/ItemUploadPage';
+import ItemDetailPage from './pages/ItemDetailPage';
+import ItemModifyPage from './pages/ItemModifyPage';
+import SearchPage from './pages/SearchPage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -40,6 +41,7 @@ export default function App() {
         <Route path="/profile/modify" element={<ProfileModifyPage />} />
         <Route path="/item/upload" element={<ItemUploadPage />} />
         <Route path="/item/detail/:itemId" element={<ItemDetailPage />} />
+        <Route path="/item/modify/:itemId" element={<ItemModifyPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />

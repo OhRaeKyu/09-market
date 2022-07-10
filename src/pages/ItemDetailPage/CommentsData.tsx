@@ -66,7 +66,7 @@ export default function CommentsData() {
 }
 
 const CommentsContainer = styled.section`
-  padding: 0 15px;
+  padding: 10px 15px 0;
 `;
 
 const CommentsList = styled.ul`

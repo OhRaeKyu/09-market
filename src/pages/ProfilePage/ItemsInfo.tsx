@@ -32,8 +32,13 @@ export default function ItemsInfo() {
 }
 
 const FeedInfoWrap = styled.section`
-  max-width: 95vw;
-  margin: 1rem auto 5px;
+  width: 95vw;
+  margin: 10px auto;
+
+  @media screen and (min-width: 420px) {
+    width: 70vw;
+    max-width: 1000px;
+  }
 `;
 
 const PostsContainer = styled.ul`
