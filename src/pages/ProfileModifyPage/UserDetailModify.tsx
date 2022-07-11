@@ -6,11 +6,8 @@ import { useSelector } from '@/hooks/useTypedSelector';
 
 import axios from '@/api/axios';
 import { PALLETS } from '@/utils/constants';
-import {
-  setUserData,
-  InitUserData,
-  setUserProfile,
-} from '@/modules/userModule';
+import { InitUserData } from '@/utils/types';
+import { setUserData, setUserProfile } from '@/modules/userModule';
 
 import GoBackHeader from '@/components/GoBackHeader';
 
@@ -36,6 +33,7 @@ export default function UserDetailModify() {
 
   const handleInputName = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setUserData({ nickname: e.target.value }));
+    dispatch(setUserProfile({ nickname: e.target.value }));
   };
 
   const handleInputPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +84,7 @@ export default function UserDetailModify() {
   return (
     <>
       <GoBackHeader headerTitle="회원 정보" />
-      <SignUpPageWrap>
+      <FormWrap>
         <Form method="get">
           <label htmlFor="inpNickname">이름</label>
           <input
@@ -124,12 +122,12 @@ export default function UserDetailModify() {
         >
           수정하기
         </ModifyButton>
-      </SignUpPageWrap>
+      </FormWrap>
     </>
   );
 }
 
-const SignUpPageWrap = styled.main`
+const FormWrap = styled.main`
   height: 100vh;
   display: flex;
   flex-direction: column;

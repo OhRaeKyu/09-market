@@ -6,7 +6,8 @@ import { useSelector } from '@/hooks/useTypedSelector';
 
 import axios from '@/api/axios';
 import { PALLETS } from '@/utils/constants';
-import { InitUserData, setUserData } from '@/modules/userModule';
+import { InitUserData } from '@/utils/types';
+import { setUserData } from '@/modules/userModule';
 
 import AddressModal from '@/components/AddressModal';
 

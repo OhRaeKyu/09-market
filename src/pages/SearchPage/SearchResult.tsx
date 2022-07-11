@@ -5,8 +5,8 @@ import { useLocation, Link } from 'react-router-dom';
 import axios from '@/api/axios';
 import { PALLETS } from '@/utils/constants';
 import { setImgSrc } from '@/utils/setImgSrc';
+import { InitItemDetail } from '@/utils/types';
 import { useDebounce } from '@/hooks/useDebounce';
-import { InitItemDetail } from '@/modules/itemModule';
 
 import commentSrc from '@/images/comment_white.png';
 

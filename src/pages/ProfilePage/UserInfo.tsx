@@ -1,38 +1,33 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
 import { useSelector } from '@/hooks/useTypedSelector';
 
 import axios from '@/api/axios';
 import { setImgSrc } from '@/utils/setImgSrc';
-import { setUserData } from '@/modules/userModule';
 
 import profileSrc from '@/images/profileImg.png';
 
 export default function UserInfo() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const inputImgFile = useRef() as React.MutableRefObject<HTMLInputElement>;
-  const [changeImg, setChangeImg] = useState('');
 
   const currentUserId = sessionStorage.getItem('userId');
   const profileUserId = useSelector((state) => state.userProfile.userId);
   const authorization = currentUserId == profileUserId;
 
-  const userData = useSelector((state) => state.userData);
   const { nickname, userImageUrl, userInfo } = useSelector(
     (state) => state.userProfile
   );
 
   const modifyProfileImg = async (imgUrl: string) => {
-    const userToken = sessionStorage.getItem('token');
     const userId = sessionStorage.getItem('userId');
+    const modifyData = {
+      userImageUrl: imgUrl,
+    };
 
     await axios
-      .put(`/auth/${userId}/update`, {
-        ['userImageUrl']: imgUrl,
-      })
+      .put(`/auth/${userId}/update`, modifyData)
       .then(() => {
         console.log('update 성공');
         navigate(`/profile/detail/${userId}`);
@@ -47,9 +42,11 @@ export default function UserInfo() {
     reader.readAsDataURL(fileBlob);
     return new Promise<void>((resolve) => {
       reader.onload = () => {
-        setChangeImg(
-          String(reader.result).replace(/^data:image\/[a-z]+;base64,/, '')
+        const changeImg = String(reader.result).replace(
+          /^data:image\/[a-z]+;base64,/,
+          ''
         );
+        modifyProfileImg(changeImg);
         resolve();
       };
     });
@@ -68,12 +65,6 @@ export default function UserInfo() {
       return setImgSrc(url);
     }
   };
-
-  useEffect(() => {
-    if (changeImg.length > 0) {
-      modifyProfileImg(changeImg);
-    }
-  }, [changeImg]);
 
   return (
     <UserInfoWrap>

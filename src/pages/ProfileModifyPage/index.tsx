@@ -12,7 +12,9 @@ import GoBackHeader from '@/components/GoBackHeader';
 export default function ProfileModifyPage() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const { email, nickname, mobile } = useSelector((state) => state.userData);
+  const { email, nickname, mobile, address } = useSelector(
+    (state) => state.userData
+  );
 
   const getUserData = async () => {
     const userToken = sessionStorage.getItem('token');
@@ -63,7 +65,10 @@ export default function ProfileModifyPage() {
             </ModifyLink>
           </ModifyItem>
           <ModifyItem>
-            <ModifyLink to={'/profile/modify/address'}>주소지 변경</ModifyLink>
+            <ModifyLink to={'/profile/modify/address'}>
+              주소지 변경
+              <UserAddress>{address}</UserAddress>
+            </ModifyLink>
           </ModifyItem>
         </ModifyList>
       </ModifyListWrap>
@@ -145,4 +150,12 @@ const UserInfoDetail = styled.dd`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+`;
+
+const UserAddress = styled.span`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 1rem;
 `;

@@ -52,6 +52,7 @@ export default function SingInForm() {
       <input
         type="text"
         required
+        autoFocus
         placeholder="아이디 입력"
         value={userData.email}
         onChange={handleInputEmail}

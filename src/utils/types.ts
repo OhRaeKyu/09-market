@@ -38,7 +38,6 @@ interface ProfileItem {
 
 export interface InitUserData {
   email: string;
-  password: string;
   nickname: string;
   mobile: string;
   address: string;

@@ -19,7 +19,6 @@ export const setUserProfile = (data: {}) => ({
 
 const initUserData = {
   email: '',
-  password: '',
   nickname: '',
   mobile: '',
   address: '',
