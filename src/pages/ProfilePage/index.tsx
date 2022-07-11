@@ -16,8 +16,9 @@ export default function ProfilePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(true);
   const userId = useParams().userId;
+  const [loading, setLoading] = useState(true);
+  const storedId = useSelector((state) => state.userProfile.userId);
   const { modalOpen } = useSelector((state) => state.isModalOpen);
 
   const getUserProfile = async (userId: string) => {
@@ -29,7 +30,9 @@ export default function ProfilePage() {
     await axios
       .get(`/user/${userId}`, { headers })
       .then((res) => {
-        dispatch(setUserProfile(res.data));
+        dispatch(
+          setUserProfile({ ...res.data, userId: String(res.data.userId) })
+        );
         setLoading(false);
       })
       .catch(() => {
@@ -39,8 +42,12 @@ export default function ProfilePage() {
   };
 
   useEffect(() => {
-    if (!!userId && isLogined()) {
-      getUserProfile(userId);
+    if (isLogined() && !!userId) {
+      if (userId !== storedId) {
+        getUserProfile(userId);
+      } else {
+        setLoading(false);
+      }
     }
   }, []);
 

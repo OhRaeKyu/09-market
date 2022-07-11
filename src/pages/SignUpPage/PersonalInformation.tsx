@@ -8,24 +8,27 @@ import axios from '@/api/axios';
 import { PALLETS } from '@/utils/constants';
 import { InitUserData, setUserData } from '@/modules/userModule';
 
+import AddressModal from '@/components/AddressModal';
+
 export default function PersonalInformation() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.userData);
   const { nickname, mobile, address, zipcode } = userData;
 
-  const [addressClicked, setAddressClicked] = useState(false);
-
+  const [modal, setModal] = useState(false);
   const [error, setError] = useState('');
   const [disabledBtn, setDisabledBtn] = useState(true);
+  const [addressDetail, setAddressDetail] = useState('');
 
   const signUpVerify = () => {
     if (
       error.length === 0 &&
       nickname.length > 0 &&
       mobile.length > 0 &&
+      zipcode.length > 0 &&
       address.length > 0 &&
-      zipcode > 0
+      addressDetail.length > 0
     ) {
       setError('');
       setDisabledBtn(false);
@@ -39,9 +42,9 @@ export default function PersonalInformation() {
   };
 
   const handleInputPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const checkPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
-
     dispatch(setUserData({ mobile: e.target.value }));
+
+    const checkPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 
     if (checkPhone.test(e.target.value)) {
       setError('');
@@ -51,24 +54,18 @@ export default function PersonalInformation() {
   };
 
   const handleInputAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setUserData({ address: e.target.value }));
+    setAddressDetail(e.target.value);
   };
 
-  const handleInputZipcode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setUserData({ zipcode: e.target.value }));
-  };
-
-  const signUp = async (userData: InitUserData) => {
-    const data = {
-      email: userData.email,
-      password: userData.password,
-      nickname: userData.nickname,
-      mobile: userData.mobile,
-      address: userData.address,
-      zipcode: userData.zipcode,
+  const signUp = async (data: InitUserData) => {
+    const detail = addressDetail;
+    const userData = {
+      ...data,
+      address: data.address.concat(' ', detail),
     };
+
     await axios
-      .post('/auth/signup', data)
+      .post('/auth/signup', userData)
       .then(() => {
         navigate('/signin');
       })
@@ -104,30 +101,32 @@ export default function PersonalInformation() {
             onChange={handleInputPhone}
             onKeyUp={signUpVerify}
           />
-          <label htmlFor="inpAddress">주소(수정 예정)</label>
-          <input
-            type="text"
-            placeholder="주소 입력"
-            required
-            id="inpAddress"
-            value={address}
-            onChange={handleInputAddress}
-            onKeyUp={signUpVerify}
-          />
-          <label htmlFor="inpZipcode">우편번호(수정 예정)</label>
-          <input
-            type="text"
-            placeholder="우편번호 입력"
-            required
-            id="inpZipcode"
-            maxLength={5}
-            value={zipcode}
-            onChange={handleInputZipcode}
-            onKeyUp={signUpVerify}
-          />
-          {/* <button type="button" onClick={() => setAddressClicked(true)}>
-            주소검색
-          </button> */}
+          <AddressWrap>
+            <legend className="blind">주소 Form</legend>
+            <label htmlFor="inpAddress">주소</label>
+            <AddressSearchBtn
+              id="inpAddress"
+              type="button"
+              onClick={() => setModal(true)}
+            >
+              주소찾기
+            </AddressSearchBtn>
+            <input
+              type="text"
+              placeholder="우편번호"
+              value={zipcode}
+              readOnly
+            />
+            <input type="text" placeholder="주소" value={address} readOnly />
+            <input
+              type="text"
+              placeholder="상세 주소"
+              required
+              value={addressDetail}
+              onChange={handleInputAddress}
+              onKeyUp={signUpVerify}
+            />
+          </AddressWrap>
           <ErrorText>{error}</ErrorText>
         </Form>
         <SignUpButton
@@ -137,14 +136,15 @@ export default function PersonalInformation() {
         >
           가입하기
         </SignUpButton>
+        {modal && <AddressModal setModal={setModal} />}
       </SignUpPageWrap>
     </>
   );
 }
 
 const SignUpPageWrap = styled.main`
+  postion: relative;
   height: 100vh;
-  max-width: 90vw;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -156,8 +156,9 @@ const Form = styled.form`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 80%;
-  padding: 20px 10px;
+  width: 80vw;
+  max-width: 800px;
+  margin-bottom: 15px;
 
   input {
     border: 1px solid ${PALLETS.LIGHT_GRAY};
@@ -170,21 +171,26 @@ const Form = styled.form`
   }
 `;
 
-const SignUpButton = styled.button`
-  background-color: ${PALLETS.PURPLE};
-  color: ${PALLETS.WHITE};
-  padding: 15px 0;
-  width: 80%;
+const AddressWrap = styled.fieldset`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`;
 
-  &:disabled {
-    cursor: inherit;
-    opacity: 0.5;
-  }
+const AddressSearchBtn = styled.button`
+  box-sizing: border-box;
+  position: absolute;
+  top: 30px;
+  right: 10px;
+  width: 5rem;
+  height: 1.5rem;
+  background-color: ${PALLETS.LIGHT_GRAY};
+  border-radius: 3px;
 `;
 
 const ErrorText = styled.strong`
   position: absolute;
-  bottom: 5px;
+  bottom: -10px;
   color: rgba(255, 0, 0, 0.7);
   font-size: 0.8rem;
   animation: blink 1s linear infinite alternate;
@@ -196,5 +202,18 @@ const ErrorText = styled.strong`
     100% {
       opacity: 1;
     }
+  }
+`;
+
+const SignUpButton = styled.button`
+  background-color: ${PALLETS.PURPLE};
+  color: ${PALLETS.WHITE};
+  padding: 15px 0;
+  width: 80vw;
+  max-width: 800px;
+
+  &:disabled {
+    cursor: inherit;
+    opacity: 0.5;
   }
 `;

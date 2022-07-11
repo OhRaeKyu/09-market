@@ -70,6 +70,7 @@ export default function BasicInformation({ setStep }: Props) {
     <SignUpPageWrap>
       <Form method="get">
         <InputEmailWrap className="mb-30">
+          <legend className="blind">이메일 Form</legend>
           <label htmlFor="inpEmail">이메일</label>
           <input
             type="text"
@@ -83,6 +84,7 @@ export default function BasicInformation({ setStep }: Props) {
           />
         </InputEmailWrap>
         <InputPwWrap>
+          <legend className="blind">비밀번호 Form</legend>
           <label htmlFor="inpPw">비밀번호</label>
           <input
             type="password"
@@ -115,7 +117,6 @@ export default function BasicInformation({ setStep }: Props) {
 
 const SignUpPageWrap = styled.main`
   height: 100vh;
-  max-width: 90vw;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -127,8 +128,9 @@ const Form = styled.form`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 80%;
-  padding: 20px 10px;
+  width: 80vw;
+  max-width: 800px;
+  margin-bottom: 15px;
 
   input {
     border: 1px solid ${PALLETS.LIGHT_GRAY};
@@ -141,31 +143,19 @@ const Form = styled.form`
   }
 `;
 
-const InputEmailWrap = styled.div`
+const InputEmailWrap = styled.fieldset`
   display: flex;
   flex-direction: column;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
 `;
 
 const InputPwWrap = styled(InputEmailWrap)`
   margin-bottom: 0;
 `;
 
-const NextButton = styled.button`
-  width: 80%;
-  background-color: ${PALLETS.PURPLE};
-  color: ${PALLETS.WHITE};
-  padding: 15px 0;
-
-  &:disabled {
-    cursor: inherit;
-    opacity: 0.5;
-  }
-`;
-
 const ErrorText = styled.strong`
   position: absolute;
-  bottom: 5px;
+  bottom: -10px;
   color: rgba(255, 0, 0, 0.7);
   font-size: 0.8rem;
   animation: blink 1s linear infinite alternate;
@@ -177,5 +167,19 @@ const ErrorText = styled.strong`
     100% {
       opacity: 1;
     }
+  }
+`;
+
+const NextButton = styled.button`
+  width: 80vw;
+  max-width: 800px;
+
+  background-color: ${PALLETS.PURPLE};
+  color: ${PALLETS.WHITE};
+  padding: 15px 0;
+
+  &:disabled {
+    cursor: inherit;
+    opacity: 0.5;
   }
 `;

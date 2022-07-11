@@ -216,6 +216,7 @@ const Form = styled.form`
 
   @media screen and (min-width: 420px) {
     width: 70vw;
+    max-width: 800px;
   }
 `;
 
@@ -247,6 +248,7 @@ const ModifyButton = styled.button`
   color: ${PALLETS.WHITE};
   padding: 15px 0;
   width: 70vw;
+  max-width: 800px;
 
   &:disabled {
     cursor: inherit;

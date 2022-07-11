@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './styles/App.css';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -8,6 +8,9 @@ import SplashPage from './pages/SplashPage';
 import MainPage from './pages/MainPage';
 import ProfilePage from './pages/ProfilePage';
 import ProfileModifyPage from './pages/ProfileModifyPage';
+import PassWordModify from './pages/ProfileModifyPage/PassWordModify';
+import UserDetailModify from './pages/ProfileModifyPage/UserDetailModify';
+import AddressModify from './pages/ProfileModifyPage/AddressModify';
 import ItemUploadPage from './pages/ItemUploadPage';
 import ItemDetailPage from './pages/ItemDetailPage';
 import ItemModifyPage from './pages/ItemModifyPage';
@@ -38,7 +41,10 @@ export default function App() {
           <Route path="/profile/detail/:userId" element={<ProfilePage />} />
         </Route>
 
-        <Route path="/profile/modify" element={<ProfileModifyPage />} />
+        <Route path="/profile/modify/main" element={<ProfileModifyPage />} />
+        <Route path="/profile/modify/user" element={<UserDetailModify />} />
+        <Route path="/profile/modify/address" element={<AddressModify />} />
+        <Route path="/profile/modify/password" element={<PassWordModify />} />
         <Route path="/item/upload" element={<ItemUploadPage />} />
         <Route path="/item/detail/:itemId" element={<ItemDetailPage />} />
         <Route path="/item/modify/:itemId" element={<ItemModifyPage />} />

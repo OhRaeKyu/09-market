@@ -1,3 +1,5 @@
+import { InitItemDetail, InitItemsList } from '@/utils/types';
+
 const SET_ITEMS_LIST = 'item/SET_ITEMS_LIST';
 const SET_ITEM_DETAIL = 'item/SET_ITEM_DETAIL';
 const SET_DELETE_COMMENT = 'item/SET_DELETE_COMMENT';
@@ -16,36 +18,6 @@ export const setDeleteComment = (commentId: string) => ({
   type: SET_DELETE_COMMENT,
   payload: commentId,
 });
-
-interface Item {
-  itemId: string;
-  name: string;
-  itemImageUrl: string;
-}
-
-interface Comment {
-  commentId: string;
-  userId: string;
-  content: string;
-  nickname: string;
-  userImageUrl: string | null;
-}
-
-interface InitItemsList {
-  items: (Item & {
-    comments: number;
-  })[];
-}
-
-export interface InitItemDetail extends Item {
-  comments: Comment[];
-  userId: string;
-  instagramUrl: string;
-  itemInfo: string;
-  price: number;
-  amount: number;
-  category: string;
-}
 
 interface InitDeleteComment {
   commentId: string;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -17,6 +17,7 @@ interface ItemUploadFormData {
 
 export default function ItemUploadForm() {
   const navigate = useNavigate();
+  const categoryListRef = useRef<HTMLUListElement>(null);
 
   const [formData, setFormData] = useState<ItemUploadFormData>({
     itemImageUrl: '',
@@ -31,22 +32,14 @@ export default function ItemUploadForm() {
   const [disabledBtn, setDisabledBtn] = useState<boolean>(true);
 
   const uploadVerify = () => {
-    const {
-      itemImageUrl,
-      name,
-      itemInfo,
-      price,
-      amount,
-      category,
-      instagramUrl,
-    } = formData;
+    const { itemImageUrl, name, itemInfo, price, amount, instagramUrl } =
+      formData;
     if (
       itemImageUrl.length > 0 &&
       name.length > 0 &&
       itemInfo.length > 0 &&
       price > 0 &&
       amount > 0 &&
-      category.length > 0 &&
       instagramUrl.length > 0
     ) {
       setDisabledBtn(false);
@@ -93,6 +86,7 @@ export default function ItemUploadForm() {
         /^data:image\/[a-z]+;base64,/,
         ''
       ),
+      category: uploadData.category || '기타',
     };
     const userToken = sessionStorage.getItem('token');
     const headers = {
@@ -109,6 +103,31 @@ export default function ItemUploadForm() {
       });
   };
 
+  const handleCategoryBtn = () => {
+    if (!!categoryListRef.current) {
+      categoryListRef.current.style.display === ''
+        ? (categoryListRef.current.style.display = 'block')
+        : (categoryListRef.current.style.display = '');
+    }
+  };
+
+  const handleCategory = (category: string) => {
+    setFormData({ ...formData, category: category });
+
+    if (!!categoryListRef.current) {
+      categoryListRef.current.style.display = '';
+    }
+  };
+
+  const categoryData = ['패션', '뷰티', '식품', '기타'];
+  const renderCategoryItems = categoryData.map((category, index) => {
+    return (
+      <CategoryItem key={index} onClick={() => handleCategory(category)}>
+        {category}
+      </CategoryItem>
+    );
+  });
+
   return (
     <PostUploadWrap>
       <Form>
@@ -121,6 +140,14 @@ export default function ItemUploadForm() {
           />
           {formData.itemImageUrl.length === 0 && '+'}
         </ImgUpload>
+        <CategoryWrap>
+          <CategoryBtn type="button" onClick={handleCategoryBtn}>
+            {!!formData.category ? formData.category : '카테고리'}
+          </CategoryBtn>
+          <CategoryList ref={categoryListRef}>
+            {renderCategoryItems}
+          </CategoryList>
+        </CategoryWrap>
         <label htmlFor="inpName">상품명</label>
         <input
           type="text"
@@ -133,7 +160,7 @@ export default function ItemUploadForm() {
         />
         <label htmlFor="inpInfo">상품정보</label>
         <input
-          type="textarea"
+          type="text"
           placeholder="상품정보 입력"
           required
           id="inpInfo"
@@ -161,7 +188,8 @@ export default function ItemUploadForm() {
           onChange={(e) => handleFormData(e, 'amount')}
           onKeyUp={uploadVerify}
         />
-        <label htmlFor="inpCategory">카테고리(수정 예정)</label>
+
+        {/* <label htmlFor="inpCategory">카테고리(수정 예정)</label>
         <input
           type="text"
           placeholder="카테고리 입력"
@@ -170,7 +198,7 @@ export default function ItemUploadForm() {
           value={formData.category}
           onChange={(e) => handleFormData(e, 'category')}
           onKeyUp={uploadVerify}
-        />
+        /> */}
         <label htmlFor="inpUrl">Instgram URL</label>
         <input
           type="text"
@@ -194,7 +222,7 @@ export default function ItemUploadForm() {
 }
 
 const PostUploadWrap = styled.main`
-  margin-top: 80px;
+  margin: 80px 0 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -218,6 +246,7 @@ const Form = styled.form`
 
   @media screen and (min-width: 420px) {
     width: 70vw;
+    max-width: 800px;
   }
 `;
 
@@ -244,11 +273,67 @@ const ImgUpload = styled.label<{ itemImgUrl: string }>`
   }
 `;
 
+const CategoryWrap = styled.div`
+  position: relative;
+`;
+
+const CategoryBtn = styled.button`
+  position: relative;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid ${PALLETS.LIGHT_GRAY};
+  margin-bottom: 10px;
+  text-align: start;
+
+  &::after {
+    content: '>';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+`;
+
+const CategoryList = styled.ul`
+  display: none;
+  box-sizing: border-box;
+  padding: 20px;
+  position: absolute;
+  left: 0;
+  top: 45px;
+  width: 100%;
+  background-color: ${PALLETS.WHITE};
+  border: 1px solid rgba(0, 0, 0.3);
+  animation: appear 0.3s ease-out;
+
+  @keyframes appear {
+    0% {
+      opacity: 0;
+    }
+    100 % {
+      opacity: 1;
+    }
+  }
+`;
+
+const CategoryItem = styled.li`
+  cursor: pointer;
+
+  &:hover {
+    color: ${PALLETS.PURPLE};
+  }
+
+  & + li {
+    margin-top: 20px;
+  }
+`;
+
 const UploadButton = styled.button`
   background-color: ${PALLETS.PURPLE};
   color: ${PALLETS.WHITE};
   padding: 15px 0;
   width: 70vw;
+  max-width: 800px;
 
   &:disabled {
     cursor: inherit;

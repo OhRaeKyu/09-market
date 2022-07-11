@@ -36,6 +36,12 @@ export default function InputComment() {
       });
   };
 
+  const pressEnterKey = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      inputComment.length > 0 && handleSubmitBtn(inputComment);
+    }
+  };
+
   useEffect(() => {
     setBtnDisabled(inputComment.length > 0 ? false : true);
   }, [inputComment]);
@@ -53,6 +59,7 @@ export default function InputComment() {
           placeholder="댓글을 입력해주세요."
           maxLength={500}
           onChange={handleInputComment}
+          onKeyDown={pressEnterKey}
         />
         <SubmitBtn
           type="button"

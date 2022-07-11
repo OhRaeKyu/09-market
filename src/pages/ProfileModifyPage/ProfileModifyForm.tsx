@@ -1,12 +1,14 @@
+import styled from 'styled-components';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useSelector } from '@/hooks/useTypedSelector';
 
-import { PALLETS } from '@/utils/constants';
 import axios from '@/api/axios';
+import { PALLETS } from '@/utils/constants';
 import { setUserData, InitUserData } from '@/modules/userModule';
+
+import AddressModal from '@/components/AddressModal';
 
 export default function ProfileModifyForm() {
   const navigate = useNavigate();
@@ -16,19 +18,21 @@ export default function ProfileModifyForm() {
 
   const [inputPwVerify, setInputPwVerify] = useState('');
 
+  const [modal, setModal] = useState(false);
   const [error, setError] = useState('');
   const [disabledBtn, setDisabledBtn] = useState(true);
+  const [addressDetail, setAddressDetail] = useState('');
 
   const modifyVerify = () => {
     if (
       error.length === 0 &&
+      nickname.length > 0 &&
       password.length > 0 &&
       inputPwVerify.length > 0 &&
-      password === inputPwVerify &&
-      nickname.length > 0 &&
       mobile.length > 0 &&
+      zipcode.length > 0 &&
       address.length > 0 &&
-      zipcode > 0
+      addressDetail.length > 0
     ) {
       setError('');
       setDisabledBtn(false);
@@ -68,15 +72,16 @@ export default function ProfileModifyForm() {
   };
 
   const handleInputAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setUserData({ address: e.target.value }));
+    setAddressDetail(e.target.value);
   };
 
-  const handleInputZipcode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setUserData({ zipcode: e.target.value }));
-  };
-
-  const handleNextBtn = async (userData: InitUserData) => {
+  const handleModifyBtn = async (data: InitUserData) => {
     const userId = sessionStorage.getItem('userId');
+    const detail = addressDetail;
+    const userData = {
+      ...data,
+      address: data.address.concat(' ', detail),
+    };
 
     await axios
       .put(`/auth/${userId}/update`, userData)
@@ -128,29 +133,33 @@ export default function ProfileModifyForm() {
           onChange={handleInputPhone}
           onKeyUp={modifyVerify}
         />
-        <label>주소(수정 예정)</label>
-        <input
-          type="text"
-          placeholder="주소 입력"
-          required
-          value={address}
-          onChange={handleInputAddress}
-          onKeyUp={modifyVerify}
-        />
-        <label>우편번호(수정 예정)</label>
-        <input
-          type="text"
-          placeholder="우편번호 입력"
-          required
-          value={zipcode}
-          onChange={handleInputZipcode}
-          onKeyUp={modifyVerify}
-        />
+        <AddressWrap>
+          <legend className="blind">주소 Form</legend>
+          <label htmlFor="inpAddress">주소</label>
+          <AddressSearchBtn
+            id="inpAddress"
+            type="button"
+            onClick={() => setModal(true)}
+          >
+            주소찾기
+          </AddressSearchBtn>
+          <input type="text" placeholder="우편번호" value={zipcode} readOnly />
+          <input type="text" placeholder="주소" value={address} readOnly />
+          <input
+            type="text"
+            placeholder="상세 주소"
+            required
+            value={addressDetail}
+            onChange={handleInputAddress}
+            onKeyUp={modifyVerify}
+          />
+        </AddressWrap>
+        {modal && <AddressModal setModal={setModal} />}
         <ErrorText>{error}</ErrorText>
       </Form>
       <NextButton
         type="button"
-        onClick={() => handleNextBtn(userData)}
+        onClick={() => handleModifyBtn(userData)}
         disabled={disabledBtn}
       >
         수정하기
@@ -188,16 +197,21 @@ const Form = styled.form`
   }
 `;
 
-const NextButton = styled.button`
-  width: 80%;
-  background-color: ${PALLETS.PURPLE};
-  color: ${PALLETS.WHITE};
-  padding: 15px 0;
+const AddressWrap = styled.fieldset`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`;
 
-  &:disabled {
-    cursor: inherit;
-    opacity: 0.5;
-  }
+const AddressSearchBtn = styled.button`
+  box-sizing: border-box;
+  position: absolute;
+  top: 30px;
+  right: 10px;
+  width: 5rem;
+  height: 1.5rem;
+  background-color: ${PALLETS.LIGHT_GRAY};
+  border-radius: 3px;
 `;
 
 const ErrorText = styled.strong`
@@ -214,5 +228,17 @@ const ErrorText = styled.strong`
     100% {
       opacity: 1;
     }
+  }
+`;
+
+const NextButton = styled.button`
+  width: 80%;
+  background-color: ${PALLETS.PURPLE};
+  color: ${PALLETS.WHITE};
+  padding: 15px 0;
+
+  &:disabled {
+    cursor: inherit;
+    opacity: 0.5;
   }
 `;

@@ -13,14 +13,16 @@ import OptionModal from '@/components/OptionModal';
 import ItemData from './ItemData';
 import CommentsData from './CommentsData';
 import InputComment from './InputComment';
-import { setItemDetail } from '@/modules/itemModule';
 import ItemLoading from './ItemLoading';
+
+import { setItemDetail } from '@/modules/itemModule';
 
 export default function ItemDetailPage() {
   const dispatch = useDispatch();
   const itemId = useParams().itemId;
 
   const { modalOpen } = useSelector((state) => state.isModalOpen);
+  const storedItemId = useSelector((state) => state.itemDetail.itemId);
 
   const [loading, setLoading] = useState(true);
 
@@ -28,14 +30,20 @@ export default function ItemDetailPage() {
     await axios
       .get(`/item/detail/${itemId}`)
       .then((res) => {
-        dispatch(setItemDetail(res.data));
+        dispatch(
+          setItemDetail({ ...res.data, itemId: String(res.data.itemId) })
+        );
         setLoading(false);
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    getItem();
+    if (itemId !== storedItemId) {
+      getItem();
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   return (
@@ -48,7 +56,6 @@ export default function ItemDetailPage() {
             <CommentsData />
           </>
         ) : (
-          // <ItemLoading />
           <ItemLoading />
         )}
         {isLogined() && <InputComment />}

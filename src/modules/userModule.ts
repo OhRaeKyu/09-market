@@ -1,3 +1,4 @@
+import { InitUserData, InitUserProfile } from '@/utils/types';
 const SET_USER_DATA = 'user/SET_USER_DATA';
 const DELETE_USER_DATA = 'user/DELETE_USER_DATA';
 const SET_USER_PROFILE = 'user/SET_USER_PROFILE';
@@ -16,38 +17,16 @@ export const setUserProfile = (data: {}) => ({
   payload: data,
 });
 
-export interface InitUserData {
-  email: string;
-  password: string;
-  nickname: string;
-  mobile: string;
-  address: string;
-  zipcode: number;
-  userImageUrl: string | null;
-}
-
-interface Item {
-  id: string;
-  itemImageUrl: string;
-  itemInfo: string;
-}
-
-interface InitUserProfile {
-  userId: string;
-  nickname: string;
-  userImageUrl: string | null;
-  userInfo: string | null;
-  items: Item[];
-}
-
 const initUserData = {
   email: '',
   password: '',
   nickname: '',
   mobile: '',
   address: '',
-  zipcode: 0,
+  zipcode: '',
+  userInfo: null,
 } as InitUserData;
+
 const initUserProfile = {} as InitUserProfile;
 
 type UserDataAction = ReturnType<typeof setUserData>;

@@ -47,11 +47,12 @@ const PostItemContainer = styled.section`
 const PostItemItem = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 80px 2.5vw 0;
+  margin: 0 auto;
+  padding-top: 80px;
+  max-width: 95vw;
 
   @media screen and (min-width: 420px) {
     max-width: 70vw;
-    margin: 0 auto;
   }
 `;
 

@@ -60,7 +60,7 @@ const GoBackHeaderWrap = styled.header`
   width: 100%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   background-color: ${PALLETS.WHITE};
-  z-index: 9999;
+  z-index: 100;
 `;
 
 const GoBackHeaderItems = styled.div`

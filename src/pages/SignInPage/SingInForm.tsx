@@ -63,7 +63,7 @@ export default function SingInForm() {
         placeholder="비밀번호 입력"
         value={userData.password}
         onChange={handleInputPw}
-        onKeyUp={pressEnterKey}
+        onKeyDown={pressEnterKey}
       />
       <SignInButton type="button" onClick={() => handleSignInBtn(userData)}>
         로그인
@@ -75,7 +75,8 @@ export default function SingInForm() {
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 80vw;
+  max-width: 800px;
   padding: 20px 10px;
 
   input {

@@ -37,7 +37,6 @@ const FeedInfoWrap = styled.section`
 
   @media screen and (min-width: 420px) {
     width: 70vw;
-    max-width: 1000px;
   }
 `;
 

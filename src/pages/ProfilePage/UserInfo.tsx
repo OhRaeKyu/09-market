@@ -91,12 +91,15 @@ export default function UserInfo() {
             <span className="blind"> 프로필 페이지</span>
           </UserName>
           {authorization && (
-            <ProfileModifyBtn onClick={() => navigate('/profile/modify')}>
+            <ProfileModifyBtn onClick={() => navigate('/profile/modify/main')}>
               프로필 편집
             </ProfileModifyBtn>
           )}
         </UserNameAndModify>
       </UserInfoHeader>
+      <UserInfoMain>
+        <UserInfoText>{userInfo}</UserInfoText>
+      </UserInfoMain>
       <Form className="blind">
         <ImgInput
           type="file"
@@ -110,23 +113,22 @@ export default function UserInfo() {
 }
 
 const UserInfoWrap = styled.section`
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
+  min-height: 200px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
 const UserInfoHeader = styled.header`
   display: flex;
   align-items: center;
-  width: 100%;
+  margin: 0 auto;
+  padding: 30px 0;
   max-width: 320px;
 
   @media screen and (min-width: 420px) {
     max-width: 700px;
+    width: 70vw;
   }
 `;
 
@@ -165,3 +167,17 @@ const ProfileModifyBtn = styled.button`
 const Form = styled.form``;
 
 const ImgInput = styled.input``;
+
+const UserInfoMain = styled.main`
+  margin: 0 auto;
+  max-width: 320px;
+
+  @media screen and (min-width: 420px) {
+    max-width: 700px;
+    width: 70vw;
+  }
+`;
+
+const UserInfoText = styled.p`
+  line-height: 1.5rem;
+`;
