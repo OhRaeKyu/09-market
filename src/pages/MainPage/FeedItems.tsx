@@ -8,9 +8,9 @@ import axios from '@/api/axios';
 import { PALLETS } from '@/utils/constants';
 import { setImgSrc } from '@/utils/setImgSrc';
 import { setItemsList } from '@/modules/itemModule';
-import commentSrc from '@/images/comment_white.png';
 
 import FeedLoading from './FeedLoading';
+import commentSrc from '@/images/comment_white.svg';
 
 export default function FeedItems() {
   const dispatch = useDispatch();
@@ -105,6 +105,7 @@ const ItemComment = styled.p`
     background-image: url(${commentSrc});
     background-size: cover;
     position: absolute;
+    top: -1px;
     left: -25px;
   }
 `;

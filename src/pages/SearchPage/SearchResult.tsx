@@ -8,7 +8,7 @@ import { setImgSrc } from '@/utils/setImgSrc';
 import { InitItemDetail } from '@/utils/types';
 import { useDebounce } from '@/hooks/useDebounce';
 
-import commentSrc from '@/images/comment_white.png';
+import commentSrc from '@/images/comment_white.svg';
 
 export default function SearchResult() {
   const [resultItems, setResultItems] = useState<InitItemDetail[]>([]);

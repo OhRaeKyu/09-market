@@ -8,8 +8,8 @@ import { setImgSrc } from '@/utils/setImgSrc';
 import { setModalMode, setModalOpen } from '@/modules/modalModule';
 import { setDeleteComment } from '@/modules/itemModule';
 
-import profileSrc from '@/images/profileImg.png';
-import moreSrc from '@/images/more.png';
+import profileSrc from '@/images/profileImg.svg';
+import moreSrc from '@/images/more.svg';
 
 export default function CommentsData() {
   const dispatch = useDispatch();

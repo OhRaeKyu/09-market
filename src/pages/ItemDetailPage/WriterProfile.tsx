@@ -6,7 +6,7 @@ import { useSelector } from '@/hooks/useTypedSelector';
 import axios from '@/api/axios';
 import { setImgSrc } from '@/utils/setImgSrc';
 
-import profileSrc from '@/images/profileImg.png';
+import profileSrc from '@/images/profileImg.svg';
 
 export default function WriterProfile() {
   const userId = useSelector((state) => state.itemDetail.userId);

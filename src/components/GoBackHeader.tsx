@@ -6,7 +6,7 @@ import { useSelector } from '@/hooks/useTypedSelector';
 import { PALLETS } from '@/utils/constants';
 import { setModalMode, setModalOpen } from '@/modules/modalModule';
 
-import moreSrc from '@/images/more.png';
+import moreSrc from '@/images/more.svg';
 
 interface GoBackHeaderProps {
   headerTitle?: string;

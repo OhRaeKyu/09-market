@@ -5,9 +5,9 @@ import { useSelector } from '@/hooks/useTypedSelector';
 import { PALLETS } from '@/utils/constants';
 import { setImgSrc } from '@/utils/setImgSrc';
 import { setPriceNotation } from '@/utils/setPriceNotation';
-import commentSrc from '@/images/comment_black.png';
 
 import WriterProfile from './WriterProfile';
+import commentSrc from '@/images/comment_black.svg';
 
 export default function ItemData() {
   const item = useSelector((state) => state.itemDetail);
@@ -88,7 +88,7 @@ const Comment = styled.p`
     content: '';
     display: block;
     position: absolute;
-    top: -0.3rem;
+    top: -5px;
     left: -2rem;
     width: 1.5rem;
     height: 1.5rem;

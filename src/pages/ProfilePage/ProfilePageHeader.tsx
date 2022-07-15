@@ -6,7 +6,7 @@ import { useSelector } from '@/hooks/useTypedSelector';
 import { PALLETS } from '@/utils/constants';
 import { setModalMode, setModalOpen } from '@/modules/modalModule';
 
-import optionSrc from '@/images/option.png';
+import optionSrc from '@/images/option.svg';
 
 export default function ProfilePageHeader() {
   const dispatch = useDispatch();

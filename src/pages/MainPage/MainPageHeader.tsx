@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { PALLETS } from '@/utils/constants';
 
-import searchSrc from '@/images/search.png';
+import searchSrc from '@/images/search.svg';
 
 export default function Header() {
   const navigate = useNavigate();

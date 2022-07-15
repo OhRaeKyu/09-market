@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import profileSrc from '@/images/profileImg.png';
+import profileSrc from '@/images/profileImg.svg';
 
 export default function ItemLoading() {
   return (
