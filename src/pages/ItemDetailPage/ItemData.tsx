@@ -34,7 +34,7 @@ export default function ItemData() {
           </ItemPrice>
         </ItemInfoWrap>
         <InstagramLink href={instagramUrl} target="_blank">
-          Instagram 이동하기 {'>'}
+          Instagram 이동하기
         </InstagramLink>
       </PostItemItem>
     </PostItemContainer>
@@ -118,4 +118,12 @@ const InstagramLink = styled.a`
   border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 1rem;
   z-index: 9999;
+
+  &::after {
+    content: '>';
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+  }
 `;

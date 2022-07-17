@@ -42,11 +42,11 @@ export default function SearchResult() {
       <PostItem key={itemId}>
         <Link to={`/item/detail/${itemId}`}>
           <ItemImage src={setImgSrc(itemImageUrl)} alt={name} />
+          <ItemBackground />
           <ItemComment>
             <span className="blind">댓글 수</span>
             {comments.length}
           </ItemComment>
-          <ItemBackground />
         </Link>
       </PostItem>
     );
@@ -126,13 +126,12 @@ const ItemBackground = styled.div`
   left: 0;
   content: '';
   width: 100%;
-  height: 100px;
-  background-image: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.8),
-    rgba(0, 0, 0, 0.4),
-    rgba(0, 0, 0, 0)
-  );
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  transition: background 0.3s linear;
 
-  border-radius: 0 0 5px 5px;
+  &:hover {
+    background-color: inherit;
+  }
 `;
