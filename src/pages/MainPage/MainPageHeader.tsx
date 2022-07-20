@@ -54,8 +54,9 @@ const HeaderWrap = styled.header<{ hide: boolean }>`
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: ${PALLETS.PURPLE};
-  color: ${PALLETS.WHITE};
+  background-color: ${PALLETS.WHITE};
+  color: ${PALLETS.PURPLE};
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
   z-index: 9999;
   ${(props) => props.hide && 'transform: translateY(-100px)'}

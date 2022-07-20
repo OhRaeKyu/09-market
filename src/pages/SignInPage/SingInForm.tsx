@@ -81,9 +81,11 @@ const Form = styled.form`
   padding: 20px 10px;
 
   input {
+    box-sizing: border-box;
     border: 1px solid ${PALLETS.LIGHT_GRAY};
     padding: 10px;
     margin-bottom: 10px;
+    width: 80vw;
   }
 `;
 

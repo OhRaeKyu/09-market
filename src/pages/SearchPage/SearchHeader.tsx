@@ -47,8 +47,8 @@ const SearchHeaderWrap = styled.header`
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: ${PALLETS.PURPLE};
-  color: ${PALLETS.WHITE};
+  background-color: ${PALLETS.WHITE};
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
   z-index: 9999;
 `;
@@ -107,5 +107,4 @@ const SearchInput = styled.input`
 
 const CancelButton = styled.button`
   width: 35px;
-  color: ${PALLETS.WHITE};
 `;
