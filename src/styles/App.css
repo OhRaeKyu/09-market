@@ -28,6 +28,7 @@ button {
   background: inherit;
   border: none;
   font: inherit;
+  color: inherit;
   padding: 0;
 }
 
@@ -35,12 +36,31 @@ input {
   border: none;
   font: inherit;
   padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+input::-ms-clear {
+  display: none;
 }
 
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+fieldset {
+  border: 0;
+  padding: 0;
   margin: 0;
+  min-width: 0;
 }
 
 .blind {

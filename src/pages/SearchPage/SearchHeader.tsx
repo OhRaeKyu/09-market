@@ -80,6 +80,10 @@ const SearchInput = styled.input`
   border-radius: 5px;
   animation: searchBar 0.3s ease-out forwards;
 
+  &:focus {
+    outline: none;
+  }
+
   @keyframes searchBar {
     0% {
       width: 0;
@@ -89,8 +93,15 @@ const SearchInput = styled.input`
     }
   }
 
-  &:focus {
-    outline: none;
+  @media screen and (min-width: 420px) {
+    @keyframes searchBar {
+      0% {
+        width: 0;
+      }
+      100% {
+        width: calc(80vw - 80px);
+      }
+    }
   }
 `;
 

@@ -105,19 +105,21 @@ export default function PersonalInformation() {
           <AddressWrap>
             <legend className="blind">주소 Form</legend>
             <label htmlFor="inpAddress">주소</label>
-            <AddressSearchBtn
-              id="inpAddress"
-              type="button"
-              onClick={() => setModal(true)}
-            >
-              주소찾기
-            </AddressSearchBtn>
-            <input
-              type="text"
-              placeholder="우편번호"
-              value={zipcode}
-              readOnly
-            />
+            <ZipcodeWrap>
+              <AddressSearchBtn
+                id="inpAddress"
+                type="button"
+                onClick={() => setModal(true)}
+              >
+                주소찾기
+              </AddressSearchBtn>
+              <input
+                type="text"
+                placeholder="우편번호"
+                value={zipcode}
+                readOnly
+              />
+            </ZipcodeWrap>
             <input type="text" placeholder="주소" value={address} readOnly />
             <input
               type="text"
@@ -161,14 +163,16 @@ const Form = styled.form`
   max-width: 800px;
   margin-bottom: 15px;
 
+  label {
+    margin: 0 0 5px 10px;
+  }
+
   input {
+    box-sizing: border-box;
     border: 1px solid ${PALLETS.LIGHT_GRAY};
     padding: 10px;
     margin-bottom: 10px;
-  }
-
-  label {
-    margin: 0 0 5px 10px;
+    width: 80vw;
   }
 `;
 
@@ -178,11 +182,21 @@ const AddressWrap = styled.fieldset`
   flex-direction: column;
 `;
 
+const ZipcodeWrap = styled.div`
+  position: relative;
+  margin-bottom: 10px;
+
+  input {
+    margin-bottom: 0;
+  }
+`;
+
 const AddressSearchBtn = styled.button`
   box-sizing: border-box;
   position: absolute;
-  top: 30px;
+  top: 50%;
   right: 10px;
+  transform: translateY(-50%);
   width: 5rem;
   height: 1.5rem;
   background-color: ${PALLETS.LIGHT_GRAY};
