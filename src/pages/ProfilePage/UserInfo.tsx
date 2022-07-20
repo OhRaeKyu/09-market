@@ -115,7 +115,7 @@ const UserInfoHeader = styled.header`
   align-items: center;
   margin: 0 auto;
   padding: 30px 0;
-  max-width: 320px;
+  max-width: 300px;
 
   @media screen and (min-width: 420px) {
     max-width: 700px;
@@ -161,7 +161,7 @@ const ImgInput = styled.input``;
 
 const UserInfoMain = styled.main`
   margin: 0 auto;
-  max-width: 320px;
+  max-width: 300px;
 
   @media screen and (min-width: 420px) {
     max-width: 700px;

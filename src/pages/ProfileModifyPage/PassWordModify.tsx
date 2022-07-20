@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from '@/hooks/useTypedSelector';
 
 import axios from '@/api/axios';
 import { PALLETS } from '@/utils/constants';
@@ -9,6 +10,7 @@ import GoBackHeader from '@/components/GoBackHeader';
 
 export default function PasswordModify() {
   const navigate = useNavigate();
+  const userEmail = useSelector((state) => state.userData.email);
 
   const [error, setError] = useState('');
   const [disabledBtn, setDisabledBtn] = useState(true);
@@ -48,17 +50,22 @@ export default function PasswordModify() {
     }
   };
 
-  const handleModifyBtn = async (data: { password: string }) => {
+  const handleModifyBtn = async (data: { password: string }, email: string) => {
     const userId = sessionStorage.getItem('userId');
 
-    await axios
-      .put(`/auth/${userId}/update`, data)
-      .then(() => {
-        navigate(`/profile/detail/${userId}`);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (email === 'test@test.com') {
+      navigate(-1);
+      window.alert('테스트 계정은 비밀번호를 변경할 수 없습니다.');
+    } else {
+      await axios
+        .put(`/auth/${userId}/update`, data)
+        .then(() => {
+          navigate(`/profile/detail/${userId}`);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -89,7 +96,7 @@ export default function PasswordModify() {
         </Form>
         <ModifyButton
           type="button"
-          onClick={() => handleModifyBtn({ password: password })}
+          onClick={() => handleModifyBtn({ password: password }, userEmail)}
           disabled={disabledBtn}
         >
           수정하기
