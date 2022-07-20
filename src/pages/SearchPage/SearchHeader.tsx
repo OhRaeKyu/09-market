@@ -77,6 +77,7 @@ const SearchInput = styled.input`
   box-sizing: border-box;
   margin: 0 10px;
   padding: 5px 0 5px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 5px;
   animation: searchBar 0.3s ease-out forwards;
 
