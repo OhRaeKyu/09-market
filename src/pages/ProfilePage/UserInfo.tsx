@@ -89,6 +89,7 @@ export default function UserInfo() {
         </UserNameAndModify>
       </UserInfoHeader>
       <UserInfoMain>
+        <h2 className="blind">유저 정보</h2>
         <UserInfoText>{userInfo}</UserInfoText>
       </UserInfoMain>
       <Form className="blind">

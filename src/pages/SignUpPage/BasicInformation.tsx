@@ -142,7 +142,6 @@ const Form = styled.form`
     border: 1px solid ${PALLETS.LIGHT_GRAY};
     padding: 10px;
     margin-bottom: 10px;
-    width: 80vw;
   }
 
   label {
