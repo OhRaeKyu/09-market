@@ -8,7 +8,7 @@ import SplashPage from './pages/SplashPage';
 import MainPage from './pages/MainPage';
 import ProfilePage from './pages/ProfilePage';
 import ProfileModifyPage from './pages/ProfileModifyPage';
-import PasswordModify from './pages/ProfileModifyPage/PassWordModify';
+import PasswordModify from './pages/ProfileModifyPage/PasswordModify';
 import UserDetailModify from './pages/ProfileModifyPage/UserDetailModify';
 import AddressModify from './pages/ProfileModifyPage/AddressModify';
 import ItemUploadPage from './pages/ItemUploadPage';

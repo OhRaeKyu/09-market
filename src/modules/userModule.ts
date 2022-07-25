@@ -51,10 +51,7 @@ export const userProfileReducer = (
 ) => {
   switch (action.type) {
     case SET_USER_PROFILE:
-      return {
-        ...state,
-        ...action.payload,
-      };
+      return { ...state, ...action.payload };
     default:
       return state;
   }
