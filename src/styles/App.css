@@ -63,6 +63,11 @@ fieldset {
   min-width: 0;
 }
 
+textarea {
+  resize: none;
+  overflow: hidden;
+}
+
 .blind {
   position: absolute;
   clip: rect(0 0 0 0);
