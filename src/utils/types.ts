@@ -1,6 +1,6 @@
 // 아이템
 interface Item {
-  itemId: string;
+  itemId: number;
   name: string;
   itemImageUrl: string;
 }
@@ -27,6 +27,8 @@ export interface InitItemDetail extends Item {
   price: number;
   amount: number;
   category: string;
+  nickname: string;
+  userImageUrl: string | null;
 }
 
 // 유저

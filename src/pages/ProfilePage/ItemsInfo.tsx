@@ -7,6 +7,9 @@ import { setImgSrc } from '@/utils/setImgSrc';
 
 export default function ItemsInfo() {
   const { items } = useSelector((state) => state.userProfile);
+  console.log(
+    'the same key 경고는 백엔드에서 같은 id의 게시글을 여러개 반환하여 발생하는 문제로 현재 해결 중입니다.'
+  );
 
   const renderItemsList = [...items].reverse().map((item) => {
     const { id, itemImageUrl, itemInfo } = item;

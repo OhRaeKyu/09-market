@@ -30,16 +30,14 @@ export default function ItemDetailPage() {
     await axios
       .get(`/item/detail/${itemId}`)
       .then((res) => {
-        dispatch(
-          setItemDetail({ ...res.data, itemId: String(res.data.itemId) })
-        );
+        dispatch(setItemDetail(res.data));
         setLoading(false);
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    if (itemId !== storedItemId) {
+    if ((!!itemId && parseInt(itemId)) !== storedItemId) {
       getItem();
     } else {
       setLoading(false);
