@@ -8,7 +8,7 @@ import SplashPage from './pages/SplashPage';
 import MainPage from './pages/MainPage';
 import ProfilePage from './pages/ProfilePage';
 import ProfileModifyPage from './pages/ProfileModifyPage';
-import PasswordModify from './pages/ProfileModifyPage/PasswordModify';
+import PassWordModify from './pages/ProfileModifyPage/PassWordModify';
 import UserDetailModify from './pages/ProfileModifyPage/UserDetailModify';
 import AddressModify from './pages/ProfileModifyPage/AddressModify';
 import ItemUploadPage from './pages/ItemUploadPage';
@@ -44,7 +44,7 @@ export default function App() {
         <Route path="/profile/modify/main" element={<ProfileModifyPage />} />
         <Route path="/profile/modify/user" element={<UserDetailModify />} />
         <Route path="/profile/modify/address" element={<AddressModify />} />
-        <Route path="/profile/modify/password" element={<PasswordModify />} />
+        <Route path="/profile/modify/password" element={<PassWordModify />} />
         <Route path="/item/upload" element={<ItemUploadPage />} />
         <Route path="/item/detail/:itemId" element={<ItemDetailPage />} />
         <Route path="/item/modify/:itemId" element={<ItemModifyPage />} />

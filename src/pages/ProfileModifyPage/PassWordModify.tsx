@@ -8,7 +8,7 @@ import { PALLETS } from '@/utils/constants';
 
 import GoBackHeader from '@/components/GoBackHeader';
 
-export default function PasswordModify() {
+export default function PassWordModify() {
   const navigate = useNavigate();
   const userEmail = useSelector((state) => state.userData.email);
 
