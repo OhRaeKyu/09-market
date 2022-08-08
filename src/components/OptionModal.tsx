@@ -53,6 +53,8 @@ export default function OptionModal() {
       Authorization: `Bearer ${userToken}`,
     };
 
+    console.log('댓글이 삭제되지 않는 현상은 백엔드에서 수정 중입니다.');
+
     await axios
       .delete(`/comment/${commentId}`, { headers })
       .then(() => {
